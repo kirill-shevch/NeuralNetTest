@@ -1,0 +1,6 @@
+D:\Workspace\DotNet\NeuralNetTest\NeuralNetTest\bin\Debug\NeuralNetTest.exe.config
+D:\Workspace\DotNet\NeuralNetTest\NeuralNetTest\bin\Debug\NeuralNetTest.exe
+D:\Workspace\DotNet\NeuralNetTest\NeuralNetTest\bin\Debug\NeuralNetTest.pdb
+D:\Workspace\DotNet\NeuralNetTest\NeuralNetTest\obj\Debug\NeuralNetTest.csprojResolveAssemblyReference.cache
+D:\Workspace\DotNet\NeuralNetTest\NeuralNetTest\obj\Debug\NeuralNetTest.exe
+D:\Workspace\DotNet\NeuralNetTest\NeuralNetTest\obj\Debug\NeuralNetTest.pdb
