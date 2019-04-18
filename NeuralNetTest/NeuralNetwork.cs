@@ -14,23 +14,23 @@ namespace NeuralNetTest
             ClearAll();
 
             //Заполняем входные нейроны
-            Neurons.Single(n => n.IdNeuron == firstId).DataIn = first;
-            Neurons.Single(n => n.IdNeuron == firstId).DataOut = first;
-            Neurons.Single(n => n.IdNeuron == secondId).DataIn = second;
-            Neurons.Single(n => n.IdNeuron == secondId).DataOut = second;
+            Neurons[firstId].DataIn = first;
+            Neurons[firstId].DataOut = first;
+            Neurons[secondId].DataIn = second;
+            Neurons[secondId].DataOut = second;
 
             //Обсчитываем скрытый слой и слой вывода
-            foreach (var neuron in Neurons.Where(n => n.NeuronType != (byte)NeuronTypeConst.InputNeuronType))
+            foreach (var neuron in Neurons.Select(n => n.Value).Where(n => n.NeuronType != (byte)NeuronTypeConst.InputNeuronType))
             {
-                foreach (var synapse in Synapses.Where(s => s.IdOutput == neuron.IdNeuron))
+                foreach (var synapse in Synapses.Select(n => n.Value).Where(s => s.IdOutput == neuron.IdNeuron))
                 {
-                    neuron.DataIn += Neurons.Single(n => n.IdNeuron == synapse.IdInput).DataOut * synapse.Weight;
+                    neuron.DataIn += Neurons[synapse.IdInput].DataOut * synapse.Weight;
                 }
                 neuron.DataOut = Sigmoid(neuron.DataIn);
             }
 
             //Считаем значение средней квадратичной ошибки
-            var outNeuron = Neurons.Single(n => n.NeuronType == (byte)NeuronTypeConst.OutputNeuronType);
+            var outNeuron = Neurons.Single(n => n.Value.NeuronType == (byte)NeuronTypeConst.OutputNeuronType).Value;
             MSEcounter++;
             ErrorMSE += Math.Pow((answer - outNeuron.DataOut), 2);
             ErrorMSE = ErrorMSE / MSEcounter;
@@ -43,16 +43,16 @@ namespace NeuralNetTest
             outNeuron.DeltaDeviation = DeltaOutput(answer, outNeuron.DataOut);
 
             //Считаем дельта-отклонение для скрытого слоя и изменяем веса синапсов
-            foreach (var neuron in Neurons.Where(n => n.NeuronType == (byte)NeuronTypeConst.HiddenNeuronType))
+            foreach (var neuron in Neurons.Select(n => n.Value).Where(n => n.NeuronType == (byte)NeuronTypeConst.HiddenNeuronType))
             {
                 //сумма произведения всех исходящих весов и дельта-отклонения нейрона, с которым связан синапс
                 double sum = 0;
                 //градиент для градиентного спуска
                 double grad = 0;
 
-                foreach (var synapse in Synapses.Where(s => s.IdInput == neuron.IdNeuron))
+                foreach (var synapse in Synapses.Select(s => s.Value).Where(s => s.IdInput == neuron.IdNeuron))
                 {
-                    var targetDeviation = Neurons.Single(n => n.IdNeuron == synapse.IdOutput).DeltaDeviation;
+                    var targetDeviation = Neurons[synapse.IdOutput].DeltaDeviation;
                     sum += targetDeviation * synapse.Weight;
                     grad = targetDeviation * neuron.DataOut;
                     synapse.DeltaWeight = E * grad + M * synapse.DeltaWeight;
@@ -62,14 +62,14 @@ namespace NeuralNetTest
             }
 
             //Считаем изменение веса синапсов слоя ввода
-            foreach (var neuron in Neurons.Where(n => n.NeuronType == (byte)NeuronTypeConst.InputNeuronType))
+            foreach (var neuron in Neurons.Select(n => n.Value).Where(n => n.NeuronType == (byte)NeuronTypeConst.InputNeuronType))
             {
                 //градиент для градиентного спуска
                 double grad = 0;
 
-                foreach (var synapse in Synapses.Where(s => s.IdInput == neuron.IdNeuron))
+                foreach (var synapse in Synapses.Select(s => s.Value).Where(s => s.IdInput == neuron.IdNeuron))
                 {
-                    var targetDeviation = Neurons.Single(n => n.IdNeuron == synapse.IdOutput).DeltaDeviation;
+                    var targetDeviation = Neurons[synapse.IdOutput].DeltaDeviation;
                     grad = targetDeviation * neuron.DataOut;
                     synapse.DeltaWeight = E * grad + M * synapse.DeltaWeight;
                     synapse.Weight += synapse.DeltaWeight;
@@ -115,7 +115,7 @@ namespace NeuralNetTest
 
         private void ClearAll()
         {
-            foreach (var neuron in Neurons)
+            foreach (var neuron in Neurons.Select(n => n.Value))
             {
                 neuron.DataIn = 0;
                 neuron.DataOut = 0;
@@ -123,9 +123,9 @@ namespace NeuralNetTest
             }
         }
 
-        public List<Neuron> Neurons { get; private set; }
+        public Dictionary<int, Neuron> Neurons { get; private set; }
 
-        public List<Synapse> Synapses { get; private set; }
+        public Dictionary<int, Synapse> Synapses { get; private set; }
 
         public double E { get; private set; }
 
@@ -147,8 +147,8 @@ namespace NeuralNetTest
         /// <param name="answer">Правильный ответ</param>
         public NeuralNetwork(double e, double m)
         {
-            Neurons = new List<Neuron>();
-            Synapses = new List<Synapse>();
+            Neurons = new Dictionary<int, Neuron>();
+            Synapses = new Dictionary<int, Synapse>();
             E = e;
             M = m;
             ErrorMSE = 0;
@@ -157,25 +157,25 @@ namespace NeuralNetTest
 
         public int SetNeuron(NeuronTypeConst neuronType)
         {
-            int id = Neurons.Any() ? Neurons.Max(n => n.IdNeuron) : 0;
+            int id = Neurons.Any() ? Neurons.Max(n => n.Value.IdNeuron) : 0;
             id++;
             var neuron = new Neuron(id, (byte)neuronType);
             neuron.DataIn = 0;
             neuron.DataOut = 0;
             neuron.DeltaDeviation = 0;
-            Neurons.Add(neuron);
+            Neurons.Add(id, neuron);
             return id;
         }
 
         public int SetSynapse(int inputId, int outputId, double weight)
         {
-            int id = Synapses.Any() ? Synapses.Max(s => s.IdSynapse) : 0;
+            int id = Synapses.Any() ? Synapses.Max(s => s.Value.IdSynapse) : 0;
             id++;
             var synapse = new Synapse(id);
             synapse.IdInput = inputId;
             synapse.IdOutput = outputId;
             synapse.Weight = weight;
-            Synapses.Add(synapse);
+            Synapses.Add(id, synapse);
             return id;
         }
     }
