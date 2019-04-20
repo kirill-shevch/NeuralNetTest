@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace NeuralNetTest
 {
     public class NeuralNetwork
     {
-        public double Calculate(double first, int firstId, double second, int secondId, double answer)
+        public double Calculate(double first, int firstId, double second, int secondId, double? answer = null, bool calculateDeviation = false)
         {
-            #region Forward pass
-
             //Чистим нейроны и синапсы
             ClearAll();
 
@@ -29,21 +28,56 @@ namespace NeuralNetTest
                 neuron.DataOut = Sigmoid(neuron.DataIn);
             }
 
+            if (calculateDeviation)
+            {
+                CalculateDeviation(answer.Value);
+            }
+
+            return Neurons.Single(n => n.Value.NeuronType == (byte)NeuronTypeConst.OutputNeuronType).Value.DataOut;
+        }
+
+        /// <summary>
+        /// Считаем дельта-отклонение, пересчитываем веса нейронов
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CalculateDeviation(double answer)
+        {
             //Считаем значение средней квадратичной ошибки
             var outNeuron = Neurons.Single(n => n.Value.NeuronType == (byte)NeuronTypeConst.OutputNeuronType).Value;
             MSEcounter++;
             ErrorMSE += Math.Pow((answer - outNeuron.DataOut), 2);
             ErrorMSE = ErrorMSE / MSEcounter;
 
-            #endregion Forward pass
-
-            #region Delta deviation
-
             //Считаем дельта-отклонение для слоя вывода
             outNeuron.DeltaDeviation = DeltaOutput(answer, outNeuron.DataOut);
 
-            //Считаем дельта-отклонение для скрытого слоя и изменяем веса синапсов
-            foreach (var neuron in Neurons.Select(n => n.Value).Where(n => n.NeuronType == (byte)NeuronTypeConst.HiddenNeuronType))
+            CalculateHiddenLayerDeltaDeviation((byte)NeuronTypeConst.SecondLayerHiddenNeuronType);
+
+            CalculateHiddenLayerDeltaDeviation((byte)NeuronTypeConst.FirstLayerHiddenNeuronType);
+
+            //Считаем изменение веса синапсов слоя ввода
+            foreach (var neuron in Neurons.Select(n => n.Value).Where(n => n.NeuronType == (byte)NeuronTypeConst.InputNeuronType))
+            {
+                //градиент для градиентного спуска
+                double grad = 0;
+
+                foreach (var synapse in Synapses.Select(s => s.Value).Where(s => s.IdInput == neuron.IdNeuron))
+                {
+                    var targetDeviation = Neurons[synapse.IdOutput].DeltaDeviation;
+                    grad = targetDeviation * neuron.DataOut;
+                    synapse.DeltaWeight = E * grad + M * synapse.DeltaWeight;
+                    synapse.Weight += synapse.DeltaWeight;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Считаем дельта-отклонение для указанного слоя скрытых нейронов и изменяем веса синапсов
+        /// </summary>
+        /// <param name="hiddenLayerType"></param>
+        private void CalculateHiddenLayerDeltaDeviation(byte hiddenLayerType)
+        {
+            foreach (var neuron in Neurons.Select(n => n.Value).Where(n => n.NeuronType == hiddenLayerType))
             {
                 //сумма произведения всех исходящих весов и дельта-отклонения нейрона, с которым связан синапс
                 double sum = 0;
@@ -60,25 +94,6 @@ namespace NeuralNetTest
                 }
                 neuron.DeltaDeviation = SigmoidDiff(neuron.DataOut) * sum;
             }
-
-            //Считаем изменение веса синапсов слоя ввода
-            foreach (var neuron in Neurons.Select(n => n.Value).Where(n => n.NeuronType == (byte)NeuronTypeConst.InputNeuronType))
-            {
-                //градиент для градиентного спуска
-                double grad = 0;
-
-                foreach (var synapse in Synapses.Select(s => s.Value).Where(s => s.IdInput == neuron.IdNeuron))
-                {
-                    var targetDeviation = Neurons[synapse.IdOutput].DeltaDeviation;
-                    grad = targetDeviation * neuron.DataOut;
-                    synapse.DeltaWeight = E * grad + M * synapse.DeltaWeight;
-                    synapse.Weight += synapse.DeltaWeight;
-                }
-            }
-
-            #endregion Delta deviation
-
-            return outNeuron.DataOut;
         }
 
         /// <summary>
@@ -135,8 +150,17 @@ namespace NeuralNetTest
 
         public Int64 MSEcounter { get; private set; }
 
-        private NeuralNetwork()
+        public NeuralNetwork()
         {
+        }
+
+        /// <summary>
+        /// Конструктор для предзагрузки нейросети
+        /// </summary>
+        /// <param name="directory">Путь к файлу с параметрами сети</param>
+        public NeuralNetwork(string directory)
+        {
+            LoadFromFile(directory);
         }
 
         /// <summary>
@@ -160,11 +184,14 @@ namespace NeuralNetTest
             int id = Neurons.Any() ? Neurons.Max(n => n.Value.IdNeuron) : 0;
             id++;
             var neuron = new Neuron(id, (byte)neuronType);
-            neuron.DataIn = 0;
-            neuron.DataOut = 0;
-            neuron.DeltaDeviation = 0;
             Neurons.Add(id, neuron);
             return id;
+        }
+
+        private void SetNeuron(int neuronId, byte neuronType)
+        {
+            var neuron = new Neuron(neuronId, neuronType);
+            Neurons.Add(neuronId, neuron);
         }
 
         public int SetSynapse(int inputId, int outputId, double weight)
@@ -177,6 +204,69 @@ namespace NeuralNetTest
             synapse.Weight = weight;
             Synapses.Add(id, synapse);
             return id;
+        }
+
+        private void SetSynapse(int synapseId, int inputId, int outputId, double weight)
+        {
+            var synapse = new Synapse(synapseId);
+            synapse.IdInput = inputId;
+            synapse.IdOutput = outputId;
+            synapse.Weight = weight;
+            Synapses.Add(synapseId, synapse);
+        }
+
+        public void SaveToFile(string directory)
+        {
+            FileInfo fi = new FileInfo(directory);
+            using (StreamWriter sr = new StreamWriter(fi.Open(FileMode.Truncate)))
+            {
+                sr.WriteLine("e;{0}", E);
+                sr.WriteLine("m;{0}", M);
+                foreach (var neuron in Neurons)
+                {
+                    sr.WriteLine("n;{0};{1}", neuron.Value.IdNeuron, neuron.Value.NeuronType);
+                }
+                foreach (var synapse in Synapses)
+                {
+                    sr.WriteLine("s;{0};{1};{2};{3};", synapse.Value.IdSynapse, synapse.Value.IdInput, synapse.Value.IdOutput, synapse.Value.Weight);
+                }
+            }
+        }
+
+        private void LoadFromFile(string directory)
+        {
+            ErrorMSE = 0;
+            MSEcounter = 0;
+            Neurons = new Dictionary<int, Neuron>();
+            Synapses = new Dictionary<int, Synapse>();
+            using (StreamReader sr = new StreamReader(directory))
+            {
+                string line;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    var parts = line.Split(';');
+                    if (parts.Length > 1)
+                    {
+                        switch (parts.First())
+                        {
+                            case "e": E = Convert.ToDouble(parts[1]); break;
+                            case "m": M = Convert.ToDouble(parts[1]); break;
+                            case "n":
+                                {
+                                    SetNeuron(Convert.ToInt32(parts[1]), Convert.ToByte(parts[2]));
+                                    break;
+                                }
+                            case "s":
+                                {
+                                    SetSynapse(Convert.ToInt32(parts[1]), Convert.ToInt32(parts[2]), Convert.ToInt32(parts[3]), Convert.ToDouble(parts[4]));
+                                    break;
+                                }
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -227,6 +317,11 @@ namespace NeuralNetTest
             hashCode = hashCode * -1521134295 + DeltaDeviation.GetHashCode();
             hashCode = hashCode * -1521134295 + NeuronType.GetHashCode();
             return hashCode;
+        }
+
+        public override string ToString()
+        {
+            return IdNeuron.ToString();
         }
 
         private Neuron()
@@ -290,6 +385,11 @@ namespace NeuralNetTest
             return hashCode;
         }
 
+        public override string ToString()
+        {
+            return Weight.ToString();
+        }
+
         private Synapse()
         {
 
@@ -304,7 +404,8 @@ namespace NeuralNetTest
     public enum NeuronTypeConst
     {
         InputNeuronType,
-        HiddenNeuronType,
+        FirstLayerHiddenNeuronType,
+        SecondLayerHiddenNeuronType,
         OutputNeuronType
     }
 }

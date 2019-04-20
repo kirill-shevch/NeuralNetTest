@@ -11,25 +11,30 @@ namespace NeuralNetTest
     {
         static void Main(string[] args)
         {
-            var neuralNetwork = new NeuralNetwork(0.7, 0.3);
-            var in1 = neuralNetwork.SetNeuron(NeuronTypeConst.InputNeuronType);
-            var in2 = neuralNetwork.SetNeuron(NeuronTypeConst.InputNeuronType);
-            var h1 = neuralNetwork.SetNeuron(NeuronTypeConst.HiddenNeuronType);
-            var h2 = neuralNetwork.SetNeuron(NeuronTypeConst.HiddenNeuronType);
-            var ou1 = neuralNetwork.SetNeuron(NeuronTypeConst.OutputNeuronType);
+            #region xor staff
 
-            var s1 = neuralNetwork.SetSynapse(in1, h1, 0.45);
-            var s2 = neuralNetwork.SetSynapse(in1, h2, 0.78);
-            var s3 = neuralNetwork.SetSynapse(in2, h1, -0.12);
-            var s4 = neuralNetwork.SetSynapse(in2, h2, 0.13);
-            var s5 = neuralNetwork.SetSynapse(h1, ou1, 1.5);
-            var s6 = neuralNetwork.SetSynapse(h2, ou1, -2.3);
+            //var xor = new XoRInstance();
+            ////xor.CreateInstance();
+            ////xor.SaveInstance(@"E:\Repositories\NeuralWeb\NeuralNetTest\XoR.txt");
+            //xor.LoadInstance(@"E:\Repositories\NeuralWeb\NeuralNetTest\XoR.txt");
+            //var inputs = xor.NeuralNetwork.Neurons.Where(n => n.Value.NeuronType == (byte)NeuronTypeConst.InputNeuronType).ToList();
+            //Console.WriteLine("{0} xor {1} = {2}", 0, 0, xor.NeuralNetwork.Calculate(0, inputs[0].Key, 0, inputs[1].Key));
+            //Console.WriteLine("{0} xor {1} = {2}", 0, 1, xor.NeuralNetwork.Calculate(0, inputs[0].Key, 1, inputs[1].Key));
+            //Console.WriteLine("{0} xor {1} = {2}", 1, 0, xor.NeuralNetwork.Calculate(1, inputs[0].Key, 0, inputs[1].Key));
+            //Console.WriteLine("{0} xor {1} = {2}", 1, 1, xor.NeuralNetwork.Calculate(1, inputs[0].Key, 1, inputs[1].Key));
+            //Console.ReadKey();
 
-            for (int i = 0; i < 109000; i++)
-            {
-                Console.WriteLine(neuralNetwork.Calculate(1, in1, 0, in2, 1));
-            }
+            #endregion xor staff
+
+            #region sine staff
+
+            var sine = new SineInstance();
+            sine.CreateInstance();
+            sine.SaveInstance(@"E:\Repositories\NeuralWeb\NeuralNetTest\BadSine.txt");
+            //xor.LoadInstance(@"E:\Repositories\NeuralWeb\NeuralNetTest\XoR.txt");
             Console.ReadKey();
+
+            #endregion sine staff
         }
     }
 }
