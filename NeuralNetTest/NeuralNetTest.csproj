@@ -52,6 +52,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SineInstance.cs" />
+    <Compile Include="StockInstance.cs" />
     <Compile Include="XoRInstance.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -59,9 +60,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="BadSine.txt" />
-    <Content Include="XoR.txt" />
-    <Content Include="Sine.txt" />
+    <Content Include="SavedNets\BadSine.txt" />
+    <Content Include="SavedNets\MSFT-2.txt" />
+    <Content Include="SavedNets\MSFT.txt" />
+    <Content Include="SavedNets\XoR.txt" />
+    <Content Include="SavedNets\Sine.txt" />
+    <Content Include="StockData\MSFT.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

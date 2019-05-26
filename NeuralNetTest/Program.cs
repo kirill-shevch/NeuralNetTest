@@ -23,14 +23,23 @@ namespace NeuralNetTest
 
             #region sine staff
 
-            var sine = new SineInstance();
-            sine.CreateInstance();
+            //var sine = new SineInstance();
+            //sine.CreateInstance();
             //sine.SaveInstance(@"C:\ApperSine.txt");
-            sine.SaveInstance(@"E:\Repositories\NeuralWeb\NeuralNetTest\Sine.txt");
+            //sine.SaveInstance(@"E:\Repositories\NeuralWeb\NeuralNetTest\Sine.txt");
             //sine.LoadInstance(@"E:\Repositories\NeuralWeb\NeuralNetTest\ApperSine.txt");
-            Console.ReadKey();
+            //Console.ReadKey();
 
             #endregion sine staff
+
+            #region stock staff
+
+            var stock = new StockInstance();
+            stock.CreateInstance();
+            stock.SaveInstance(@"D:\PrivateRepos\NeuralWeb\NeuralNetTest\SavedNets\MSFT-2.txt");
+            Console.ReadKey();
+
+            #endregion stock staff
         }
     }
 }
