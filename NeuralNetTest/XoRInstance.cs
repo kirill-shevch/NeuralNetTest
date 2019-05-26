@@ -43,26 +43,26 @@ namespace NeuralNetTest
             var s20 = NeuralNetwork.SetSynapse(h24, ou1, 0.13);
 
             var rand = new Random();
-
+            double error = 0;
             for (int i = 0; i < 10000; i++)
             {
                 switch (rand.Next(1, 5))
                 {
                     case 1:
                         {
-                            Debug.WriteLine("Counter-{3}    {0} xor {1} = {2}", 0, 0, NeuralNetwork.Calculate(0, in1, 0, in2, 0, true), i); break;
+                            Debug.WriteLine("Counter-{3}    {0} xor {1} = {2}", 0, 0, NeuralNetwork.Calculate(0, in1, 0, in2, out error, 0), i); break;
                         }
                     case 2:
                         {
-                            Debug.WriteLine("Counter-{3}    {0} xor {1} = {2}", 1, 0, NeuralNetwork.Calculate(1, in1, 0, in2, 1, true), i); break;
+                            Debug.WriteLine("Counter-{3}    {0} xor {1} = {2}", 1, 0, NeuralNetwork.Calculate(1, in1, 0, in2, out error, 1), i); break;
                         }
                     case 3:
                         {
-                            Debug.WriteLine("Counter-{3}    {0} xor {1} = {2}", 0, 1, NeuralNetwork.Calculate(0, in1, 1, in2, 1, true), i); break;
+                            Debug.WriteLine("Counter-{3}    {0} xor {1} = {2}", 0, 1, NeuralNetwork.Calculate(0, in1, 1, in2, out error, 1), i); break;
                         }
                     case 4:
                         {
-                            Debug.WriteLine("Counter-{3}    {0} xor {1} = {2}", 1, 1, NeuralNetwork.Calculate(1, in1, 1, in2, 0, true), i); break;
+                            Debug.WriteLine("Counter-{3}    {0} xor {1} = {2}", 1, 1, NeuralNetwork.Calculate(1, in1, 1, in2, out error, 0), i); break;
                         }
                     default:
                         break;

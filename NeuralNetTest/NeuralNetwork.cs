@@ -7,7 +7,7 @@ namespace NeuralNetTest
 {
     public class NeuralNetwork
     {
-        public double Calculate(double first, int firstId, double second, int secondId, double? answer = null, bool calculateDeviation = false)
+        public double Calculate(double first, int firstId, double second, int secondId, out double error, double? answer = null)
         {
             //Чистим нейроны и синапсы
             ClearAll();
@@ -18,8 +18,9 @@ namespace NeuralNetTest
             Neurons[secondId].DataIn = second;
             Neurons[secondId].DataOut = second;
 
-            //Обсчитываем скрытый слой и слой вывода
-            foreach (var neuron in Neurons.Select(n => n.Value).Where(n => n.NeuronType != (byte)NeuronTypeConst.InputNeuronType))
+            //Обсчитываем скрытый слой и слои вывода
+            var neurons = Neurons.Select(n => n.Value).Where(n => n.NeuronType != (byte)NeuronTypeConst.InputNeuronType).OrderBy(n => n.NeuronType);
+            foreach (var neuron in neurons)
             {
                 foreach (var synapse in Synapses.Select(n => n.Value).Where(s => s.IdOutput == neuron.IdNeuron))
                 {
@@ -27,10 +28,14 @@ namespace NeuralNetTest
                 }
                 neuron.DataOut = Sigmoid(neuron.DataIn);
             }
-
-            if (calculateDeviation)
+            
+            if (answer.HasValue)
             {
-                CalculateDeviation(answer.Value);
+                error = CalculateDeviation(answer.Value);
+            }
+            else
+            {
+                error = 0;
             }
 
             return Neurons.Single(n => n.Value.NeuronType == (byte)NeuronTypeConst.OutputNeuronType).Value.DataOut;
@@ -40,13 +45,12 @@ namespace NeuralNetTest
         /// Считаем дельта-отклонение, пересчитываем веса нейронов
         /// </summary>
         /// <param name="answer"></param>
-        private void CalculateDeviation(double answer)
+        private double CalculateDeviation(double answer)
         {
             //Считаем значение средней квадратичной ошибки
             var outNeuron = Neurons.Single(n => n.Value.NeuronType == (byte)NeuronTypeConst.OutputNeuronType).Value;
             MSEcounter++;
             ErrorMSE += Math.Pow((answer - outNeuron.DataOut), 2);
-            ErrorMSE = ErrorMSE / MSEcounter;
 
             //Считаем дельта-отклонение для слоя вывода
             outNeuron.DeltaDeviation = DeltaOutput(answer, outNeuron.DataOut);
@@ -69,6 +73,7 @@ namespace NeuralNetTest
                     synapse.Weight += synapse.DeltaWeight;
                 }
             }
+            return ErrorMSE / MSEcounter;
         }
 
         /// <summary>

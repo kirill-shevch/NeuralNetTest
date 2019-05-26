@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NeuralNetTest
 {
@@ -30,8 +25,9 @@ namespace NeuralNetTest
 
             var sine = new SineInstance();
             sine.CreateInstance();
-            sine.SaveInstance(@"E:\Repositories\NeuralWeb\NeuralNetTest\BadSine.txt");
-            //xor.LoadInstance(@"E:\Repositories\NeuralWeb\NeuralNetTest\XoR.txt");
+            //sine.SaveInstance(@"C:\ApperSine.txt");
+            sine.SaveInstance(@"E:\Repositories\NeuralWeb\NeuralNetTest\Sine.txt");
+            //sine.LoadInstance(@"E:\Repositories\NeuralWeb\NeuralNetTest\ApperSine.txt");
             Console.ReadKey();
 
             #endregion sine staff

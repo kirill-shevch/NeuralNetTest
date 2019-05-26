@@ -33,14 +33,14 @@ namespace Graph
 
         private List<Point> GetMainFunctionPoints()
         {
-            double x = 0, y = 1;
+            double x = 0, y = 0;
             var result = new List<Point>();
 
-            while (x < 30)
+            while (x < 10)
             {
-                result.Add(new Point(x, y));
-                x += 0.01;
                 y = (1 + Math.Cos(x)) / 2;
+                result.Add(new Point(x, y));
+                x += 0.1;
             }
 
             return result;
@@ -49,21 +49,28 @@ namespace Graph
         private IEnumerable<Point> GetGeneratedPoints()
         {
             var sine = new SineInstance();
-            sine.LoadInstance(@"E:\Repositories\NeuralWeb\NeuralNetTest\BadSine.txt");
+            sine.LoadInstance(@"E:\Repositories\NeuralWeb\NeuralNetTest\Sine.txt");
             var inputs = sine.NeuralNetwork.Neurons.Where(n => n.Value.NeuronType == (byte)NeuronTypeConst.InputNeuronType).ToList();
-
-            double x = 0, y1 = 0, y2 = 0;
+            double error = 0;
+            double x = 0, y1 = 0, y2 = 0, y3 = 0;
             var result = new List<Point>();
 
-            x += 0.01;
             y1 = (1 + Math.Cos(x)) / 2;
+            result.Add(new Point(x, y1));
+            x += 0.1;
 
-            while (x < 30)
+            y2 = (1 + Math.Cos(x)) / 2;
+            result.Add(new Point(x, y2));
+            x += 0.1;
+
+
+            while (x < 10)
             {
-                x += 0.01;
-                y2 = (1 + Math.Cos(x)) / 2;
-                result.Add(new Point(x, sine.NeuralNetwork.Calculate(y1, inputs[0].Key, y2, inputs[1].Key)));
+                y3 = sine.NeuralNetwork.Calculate(y1, inputs[0].Key, y2, inputs[1].Key, out error);
+                result.Add(new Point(x, y3));
+                x += 0.1;
                 y1 = y2;
+                y2 = y3;
             }
             return result;
         }
