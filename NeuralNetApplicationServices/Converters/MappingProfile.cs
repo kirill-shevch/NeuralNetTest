@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using NeuralNetApi.DTO;
 using NeuralNetApi.Requests;
 using NeuralNetDomainService.DomainObjects;
 using NeuralNetInfrastructure.Entities;
@@ -30,6 +31,12 @@ namespace NeuralNetApplicationServices.Converters
             CreateMap<Neuron, NeuronCreatingRequest>().ReverseMap();
 
             CreateMap<Synapse, SynapseCreatingRequest>().ReverseMap();
+
+            CreateMap<NeuralWeb, NeuralWebDto>().ReverseMap();
+
+            CreateMap<Neuron, NeuronDto>().ReverseMap();
+
+            CreateMap<Synapse, SynapseDto>().ReverseMap();
         }
     }
 }

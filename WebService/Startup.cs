@@ -4,10 +4,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NeuralNetApi;
+using NeuralNetApplicationServices;
 using NeuralNetApplicationServices.Converters;
 using NeuralNetDomain.Services;
 using NeuralNetDomainService.Services;
 using NeuralNetInfrastructure;
+using WebService.Controllers;
 
 namespace WebService
 {
@@ -25,6 +28,8 @@ namespace WebService
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddSingleton<INeuralNetworkService, NeuralNetworkService>();
+            services.AddSingleton<INeuralNetworkApplicationService, NeuralNetworkApplicationService>();
+            services.AddSingleton<INeuralNetworkApplicationService, NeuralNetworkController>();
             services.AddSingleton<ApplicationContext>();
 
             var mappingConfig = new MapperConfiguration(mc =>
