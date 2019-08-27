@@ -5,7 +5,7 @@
         /// <summary>
         /// Id  синапса
         /// </summary>
-        public int IdSynapse { get; private set; }
+        public int IdSynapse { get; set; }
 
         /// <summary>
         /// Id входного нейрона
@@ -59,14 +59,9 @@
             return Weight.ToString();
         }
 
-        private SynapseDomain()
+        public SynapseDomain()
         {
 
-        }
-
-        public SynapseDomain(int id)
-        {
-            IdSynapse = id;
         }
     }
 }

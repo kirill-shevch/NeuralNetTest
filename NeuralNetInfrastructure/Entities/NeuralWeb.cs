@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace NeuralNetDomain.Entities
+namespace NeuralNetInfrastructure.Entities
 {
     public class NeuralWeb
     {

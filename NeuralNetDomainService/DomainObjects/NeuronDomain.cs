@@ -5,7 +5,7 @@
         /// <summary>
         /// Id нейрона
         /// </summary>
-        public int IdNeuron { get; private set; }
+        public int IdNeuron { get; set; }
 
         /// <summary>
         /// Входное значение
@@ -25,7 +25,7 @@
         /// <summary>
         /// Тип нейрона: входной, скрытый, выходной, NeuronTypeConst
         /// </summary>
-        public byte NeuronType { get; private set; }
+        public byte NeuronType { get; set; }
 
         /// <summary>
         /// Id нейросети
@@ -59,15 +59,9 @@
             return IdNeuron.ToString();
         }
 
-        private NeuronDomain()
+        public NeuronDomain()
         {
 
-        }
-
-        public NeuronDomain(int id, byte neuronType)
-        {
-            IdNeuron = id;
-            NeuronType = neuronType;
         }
     }
 }

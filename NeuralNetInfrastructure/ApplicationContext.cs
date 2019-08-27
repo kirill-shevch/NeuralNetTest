@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using NeuralNetDomain.Entities;
+using NeuralNetInfrastructure.Entities;
 
 namespace NeuralNetInfrastructure
 {

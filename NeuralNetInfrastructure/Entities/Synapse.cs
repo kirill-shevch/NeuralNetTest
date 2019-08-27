@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace NeuralNetDomain.Entities
+namespace NeuralNetInfrastructure.Entities
 {
     public class Synapse
     {
@@ -9,7 +9,7 @@ namespace NeuralNetDomain.Entities
         /// Id  синапса
         /// </summary>
         [Key]
-        public int Id { get; private set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Id входного нейрона

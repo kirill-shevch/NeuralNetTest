@@ -1,9 +1,9 @@
 ﻿namespace NeuralNetDomainService.DTO
 {
-    public class CalculationResult
+    public class CalibrationResult
     {
         public double Result { get; set; }
 
-        public double? Error { get; set; }
+        public double Error { get; set; }
     }
 }

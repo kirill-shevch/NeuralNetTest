@@ -4,7 +4,7 @@ namespace NeuralNetDomainService.DomainObjects
 {
     public class NeuralWebDomain
     {
-        public int Id { get; private set; }
+        public int Id { get; set; }
 
         public IDictionary<int, NeuronDomain> Neurons { get; set; }
 
@@ -23,5 +23,13 @@ namespace NeuralNetDomainService.DomainObjects
         /// Значение момента для градиентного спуска
         /// </summary>
         public double Moment { get; set; }
+
+        public void SetNeuronDataOut(int id, double dataOut)
+        {
+            if (Neurons.ContainsKey(id))
+            {
+                Neurons[id].DataOut = dataOut;
+            }
+        }
     }
 }
