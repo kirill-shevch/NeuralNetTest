@@ -1,4 +1,4 @@
-﻿namespace NeuralNetApi.Requests
+﻿namespace NeuralNetApi
 {
     public class SynapseCreatingRequest
     {
@@ -15,7 +15,7 @@
         /// <summary>
         /// Id нейросети
         /// </summary>
-        public int NeuralWebId { get; set; }
+        public int NeuralNetId { get; set; }
 
         /// <summary>
         /// Вес синапса

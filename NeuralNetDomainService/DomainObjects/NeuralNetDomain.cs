@@ -1,16 +1,14 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
-namespace NeuralNetInfrastructure.Entities
+namespace NeuralNetDomainService.DomainObjects
 {
-    public class NeuralWeb
+    public class NeuralNetDomain
     {
-        [Key]
         public int Id { get; set; }
 
-        public IEnumerable<Neuron> Neurons { get; set; }
+        public IDictionary<int, NeuronDomain> Neurons { get; set; }
 
-        public IEnumerable<Synapse> Synapses { get; set; }
+        public IDictionary<int, SynapseDomain> Synapses { get; set; }
 
         public double ErrorMSE { get; set; }
 
@@ -25,5 +23,13 @@ namespace NeuralNetInfrastructure.Entities
         /// Значение момента для градиентного спуска
         /// </summary>
         public double Moment { get; set; }
+
+        public void SetNeuronDataOut(int id, double dataOut)
+        {
+            if (Neurons.ContainsKey(id))
+            {
+                Neurons[id].DataOut = dataOut;
+            }
+        }
     }
 }

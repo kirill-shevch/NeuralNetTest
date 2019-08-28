@@ -26,8 +26,8 @@ namespace NeuralNetInfrastructure.Entities
         /// <summary>
         /// Id нейросети
         /// </summary>
-        [ForeignKey(nameof(NeuralWeb))]
-        public int NeuralWebId { get; set; }
+        [ForeignKey(nameof(NeuralNet))]
+        public int NeuralNetId { get; set; }
 
         /// <summary>
         /// Вес синапса

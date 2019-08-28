@@ -1,10 +1,10 @@
-﻿namespace NeuralNetDomain.Constants
+﻿namespace NeuralNetApi
 {
-    public enum NeuronTypeConst
+    public enum NeuronType
     {
-        InputNeuronType,
-        FirstLayerHiddenNeuronType,
-        SecondLayerHiddenNeuronType,
-        OutputNeuronType
+        InputNeuronType = 1,
+        FirstLayerHiddenNeuronType = 2,
+        SecondLayerHiddenNeuronType = 3,
+        OutputNeuronType = 4
     }
 }

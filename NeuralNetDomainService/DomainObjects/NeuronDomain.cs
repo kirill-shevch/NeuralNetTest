@@ -1,4 +1,6 @@
-﻿namespace NeuralNetDomainService.DomainObjects
+﻿using NeuralNetApi;
+
+namespace NeuralNetDomainService.DomainObjects
 {
     public class NeuronDomain
     {
@@ -25,12 +27,12 @@
         /// <summary>
         /// Тип нейрона: входной, скрытый, выходной, NeuronTypeConst
         /// </summary>
-        public byte NeuronType { get; set; }
+        public NeuronType NeuronType { get; set; }
 
         /// <summary>
         /// Id нейросети
         /// </summary>
-        public int NeuralWebId { get; set; }
+        public int NeuralNetId { get; set; }
 
         public override bool Equals(object obj)
         {

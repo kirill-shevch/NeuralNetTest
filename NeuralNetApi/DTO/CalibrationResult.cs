@@ -1,4 +1,4 @@
-﻿namespace NeuralNetDomainService.DTO
+﻿namespace NeuralNetApi
 {
     public class CalibrationResult
     {

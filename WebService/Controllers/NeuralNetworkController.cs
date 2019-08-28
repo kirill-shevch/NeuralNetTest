@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using NeuralNetApi;
-using NeuralNetApi.DTO;
-using NeuralNetApi.Requests;
-using NeuralNetDomainService.DTO;
+using System.Collections.Generic;
 
 namespace WebService.Controllers
 {
@@ -17,14 +14,14 @@ namespace WebService.Controllers
             _neuralNetworkApplicationService = neuralNetworkApplicationService;
         }
 
-        public IList<CalibrationResponse> Calibrate(int neuralWebId, IList<InputNeuronCalibrationDto> inputNeuronCalibrationDto)
+        public IList<CalibrationResponse> Calibrate(int neuralNetId, IList<InputNeuronCalibrationDto> inputNeuronCalibrationDto)
         {
-            return _neuralNetworkApplicationService.Calibrate(neuralWebId, inputNeuronCalibrationDto);
+            return _neuralNetworkApplicationService.Calibrate(neuralNetId, inputNeuronCalibrationDto);
         }
 
-        public int CreateNeuralWeb(NeuralWebCreatingRequest request)
+        public int CreateNeuralNet(NeuralNetCreatingRequest request)
         {
-            return _neuralNetworkApplicationService.CreateNeuralWeb(request);
+            return _neuralNetworkApplicationService.CreateNeuralNet(request);
         }
 
         public void CreateNeurons(IList<NeuronCreatingRequest> request)
@@ -37,14 +34,14 @@ namespace WebService.Controllers
             _neuralNetworkApplicationService.CreateSynapses(request);
         }
 
-        public NeuralWebDto GetNeuralWebInformation(int neuralWebId)
+        public NeuralNetDto GetNeuralNetInformation(int neuralNetId)
         {
-            return _neuralNetworkApplicationService.GetNeuralWebInformation(neuralWebId);
+            return _neuralNetworkApplicationService.GetNeuralNetInformation(neuralNetId);
         }
 
-        public IList<ReckonResponse> Reckon(int neuralWebId, IList<InputNeuronReckonDto> inputNeuronReckonDto)
+        public IList<ReckonResponse> Reckon(int neuralNetId, IList<InputNeuronReckonDto> inputNeuronReckonDto)
         {
-            return _neuralNetworkApplicationService.Reckon(neuralWebId, inputNeuronReckonDto);
+            return _neuralNetworkApplicationService.Reckon(neuralNetId, inputNeuronReckonDto);
         }
     }
 }

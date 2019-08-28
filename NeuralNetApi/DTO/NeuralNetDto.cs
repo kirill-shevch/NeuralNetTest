@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace NeuralNetApi.DTO
+namespace NeuralNetApi
 {
-    public class NeuralWebDto
+    public class NeuralNetDto
     {
         public int Id { get; set; }
 

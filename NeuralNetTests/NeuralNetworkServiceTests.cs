@@ -1,4 +1,4 @@
-﻿using NeuralNetDomain.Constants;
+﻿using NeuralNetApi;
 using NeuralNetDomain.Services;
 using NeuralNetDomainService.DomainObjects;
 using NUnit.Framework;
@@ -49,9 +49,9 @@ namespace NeuralNetTests
             Assert.AreEqual(0.42, Math.Round(result.Error, 2));
         }
 
-        private NeuralWebDomain GetNeuralNet()
+        private NeuralNetDomain GetNeuralNet()
         {
-            return new NeuralWebDomain
+            return new NeuralNetDomainService.DomainObjects.NeuralNetDomain
             {
                 Id = 1,
                 LearningSpeed = 0.7,
@@ -64,37 +64,37 @@ namespace NeuralNetTests
                         {
                             IdNeuron = 1,
                             DataOut = 1,
-                            NeuralWebId = 1,
-                            NeuronType = (byte)NeuronTypeConst.InputNeuronType
+                            NeuralNetId = 1,
+                            NeuronType = NeuronType.InputNeuronType
                         }
                     },
                     { 2, new NeuronDomain
                         {
                             IdNeuron = 2,
                             DataOut = 0,
-                            NeuralWebId = 1,
-                            NeuronType = (byte)NeuronTypeConst.InputNeuronType
+                            NeuralNetId = 1,
+                            NeuronType = NeuronType.InputNeuronType
                         }
                     },
                     { 3, new NeuronDomain
                         {
                             IdNeuron = 3,
-                            NeuralWebId = 1,
-                            NeuronType = (byte)NeuronTypeConst.FirstLayerHiddenNeuronType
+                            NeuralNetId = 1,
+                            NeuronType = NeuronType.FirstLayerHiddenNeuronType
                         }
                     },
                     { 4, new NeuronDomain
                         {
                             IdNeuron = 4,
-                            NeuralWebId = 1,
-                            NeuronType = (byte)NeuronTypeConst.FirstLayerHiddenNeuronType
+                            NeuralNetId = 1,
+                            NeuronType = NeuronType.FirstLayerHiddenNeuronType
                         }
                     },
                     { 5, new NeuronDomain
                         {
                             IdNeuron = 5,
-                            NeuralWebId = 1,
-                            NeuronType = (byte)NeuronTypeConst.OutputNeuronType
+                            NeuralNetId = 1,
+                            NeuronType = NeuronType.OutputNeuronType
                         }
                     },
                 },
@@ -103,7 +103,7 @@ namespace NeuralNetTests
                     { 1, new SynapseDomain
                         {
                             IdSynapse = 1,
-                            NeuralWebId = 1,
+                            NeuralNetId = 1,
                             IdInput = 1,
                             IdOutput = 3,
                             Weight = 0.45
@@ -112,7 +112,7 @@ namespace NeuralNetTests
                     { 2, new SynapseDomain
                         {
                             IdSynapse = 2,
-                            NeuralWebId = 1,
+                            NeuralNetId = 1,
                             IdInput = 1,
                             IdOutput = 4,
                             Weight = 0.78
@@ -121,7 +121,7 @@ namespace NeuralNetTests
                     { 3, new SynapseDomain
                         {
                             IdSynapse = 3,
-                            NeuralWebId = 1,
+                            NeuralNetId = 1,
                             IdInput = 2,
                             IdOutput = 3,
                             Weight = -0.12
@@ -130,7 +130,7 @@ namespace NeuralNetTests
                     { 4, new SynapseDomain
                         {
                             IdSynapse = 4,
-                            NeuralWebId = 1,
+                            NeuralNetId = 1,
                             IdInput = 2,
                             IdOutput = 4,
                             Weight = 0.13
@@ -139,7 +139,7 @@ namespace NeuralNetTests
                     { 5, new SynapseDomain
                         {
                             IdSynapse = 5,
-                            NeuralWebId = 1,
+                            NeuralNetId = 1,
                             IdInput = 3,
                             IdOutput = 5,
                             Weight = 1.5
@@ -148,7 +148,7 @@ namespace NeuralNetTests
                     { 6, new SynapseDomain
                         {
                             IdSynapse = 6,
-                            NeuralWebId = 1,
+                            NeuralNetId = 1,
                             IdInput = 4,
                             IdOutput = 5,
                             Weight = -2.3

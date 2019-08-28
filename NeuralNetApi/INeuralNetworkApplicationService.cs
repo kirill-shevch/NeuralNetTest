@@ -1,19 +1,16 @@
-﻿using NeuralNetApi.DTO;
-using NeuralNetApi.Requests;
-using NeuralNetDomainService.DTO;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace NeuralNetApi
 {
     public interface INeuralNetworkApplicationService
     {
-        IList<CalibrationResponse> Calibrate(int neuralWebId, IList<InputNeuronCalibrationDto> inputNeuronCalibrationDto);
+        IList<CalibrationResponse> Calibrate(int neuralNetId, IList<InputNeuronCalibrationDto> inputNeuronCalibrationDto);
 
-        IList<ReckonResponse> Reckon(int neuralWebId, IList<InputNeuronReckonDto> inputNeuronReckonDto);
+        IList<ReckonResponse> Reckon(int neuralNetId, IList<InputNeuronReckonDto> inputNeuronReckonDto);
 
-        NeuralWebDto GetNeuralWebInformation(int neuralWebId);
+        NeuralNetDto GetNeuralNetInformation(int neuralNetId);
 
-        int CreateNeuralWeb(NeuralWebCreatingRequest request);
+        int CreateNeuralNet(NeuralNetCreatingRequest request);
 
         void CreateNeurons(IList<NeuronCreatingRequest> request);
 

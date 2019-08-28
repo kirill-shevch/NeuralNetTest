@@ -1,4 +1,4 @@
-﻿namespace NeuralNetApi.Requests
+﻿namespace NeuralNetApi
 {
     public class NeuronCreatingRequest
     {
@@ -7,6 +7,6 @@
         /// </summary>
         public byte NeuronType { get; private set; }
 
-        public int NeuralWebId { get; set; }
+        public int NeuralNetId { get; set; }
     }
 }

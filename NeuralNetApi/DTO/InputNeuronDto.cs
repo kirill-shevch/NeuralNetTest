@@ -1,4 +1,4 @@
-﻿namespace NeuralNetApi.DTO
+﻿namespace NeuralNetApi
 {
     public class InputNeuronDto
     {

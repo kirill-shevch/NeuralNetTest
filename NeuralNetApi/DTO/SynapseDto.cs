@@ -1,4 +1,4 @@
-﻿namespace NeuralNetApi.DTO
+﻿namespace NeuralNetApi
 {
     public class SynapseDto
     {
@@ -20,7 +20,7 @@
         /// <summary>
         /// Id нейросети
         /// </summary>
-        public int NeuralWebId { get; set; }
+        public int NeuralNetId { get; set; }
 
         /// <summary>
         /// Вес синапса

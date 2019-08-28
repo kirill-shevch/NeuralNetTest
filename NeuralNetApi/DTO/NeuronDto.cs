@@ -1,4 +1,4 @@
-﻿namespace NeuralNetApi.DTO
+﻿namespace NeuralNetApi
 {
     public class NeuronDto
     {
@@ -6,6 +6,6 @@
 
         public byte NeuronType { get; set; }
 
-        public int NeuralWebId { get; set; }
+        public int NeuralNetId { get; set; }
     }
 }

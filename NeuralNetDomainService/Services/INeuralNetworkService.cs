@@ -1,12 +1,12 @@
-﻿using NeuralNetDomainService.DomainObjects;
-using NeuralNetDomainService.DTO;
+﻿using NeuralNetApi;
+using NeuralNetDomainService.DomainObjects;
 
 namespace NeuralNetDomainService.Services
 {
     public interface INeuralNetworkService
     {
-        double Reckon(NeuralWebDomain neuralNet);
+        double Reckon(NeuralNetDomain neuralNet);
 
-        CalibrationResult Calibrate(NeuralWebDomain neuralNet, double answer);
+        CalibrationResult Calibrate(NeuralNetDomain neuralNet, double answer);
     }
 }

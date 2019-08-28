@@ -5,7 +5,7 @@ namespace NeuralNetInfrastructure
 {
     public class ApplicationContext : DbContext
     {
-        public DbSet<NeuralWeb> NeuralWebs { get; set; }
+        public DbSet<NeuralNet> NeuralNets { get; set; }
         public DbSet<Neuron> Neurons { get; set; }
         public DbSet<Synapse> Synapses { get; set; }
 

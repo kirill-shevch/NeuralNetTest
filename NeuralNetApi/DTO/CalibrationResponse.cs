@@ -1,7 +1,6 @@
-﻿using NeuralNetDomainService.DTO;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace NeuralNetApi.DTO
+namespace NeuralNetApi
 {
     public class CalibrationResponse
     {
