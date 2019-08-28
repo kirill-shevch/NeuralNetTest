@@ -10,7 +10,7 @@ namespace NeuralNetApplicationServices.Converters
     {
         public MappingProfile()
         {
-            CreateMap<NeuralNet, NeuralNetDomain>()
+            CreateMap<NeuralNet, NeuralNetworkDomain>()
                 .ForMember(dest => dest.Neurons, opt => opt.MapFrom(c => c.Neurons.ToDictionary(p => p.Id)))
                 .ForMember(dest => dest.Synapses, opt => opt.MapFrom(c => c.Synapses.ToDictionary(p => p.Id)))
                 .ReverseMap();
@@ -21,8 +21,8 @@ namespace NeuralNetApplicationServices.Converters
 
             CreateMap<Synapse, SynapseDomain>()
                 .ForMember(dest => dest.IdSynapse, opt => opt.MapFrom(c => c.Id))
-                .ForMember(dest => dest.IdInput, opt => opt.MapFrom(c => c.NeuronIdInput))
-                .ForMember(dest => dest.IdOutput, opt => opt.MapFrom(c => c.NeuronIdOutput))
+                //.ForMember(dest => dest.IdInput, opt => opt.MapFrom(c => c.NeuronIdInput))
+                //.ForMember(dest => dest.IdOutput, opt => opt.MapFrom(c => c.NeuronIdOutput))
                 .ReverseMap();
 
             CreateMap<NeuralNet, NeuralNetCreatingRequest>().ReverseMap();

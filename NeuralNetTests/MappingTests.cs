@@ -54,7 +54,7 @@ namespace Tests
                 ErrorMSE = 1,
                 MSEcounter = 1
             };
-            var neuralNetDomain = _mapper.Map<NeuralNetDomainService.DomainObjects.NeuralNetDomain>(neuralnet);
+            var neuralNetDomain = _mapper.Map<NeuralNetworkDomain>(neuralnet);
             Assert.AreEqual(neuralnet.LearningSpeed, neuralNetDomain.LearningSpeed);
             Assert.AreEqual(neuralnet.Id, neuralNetDomain.Id);
             Assert.AreEqual(neuralnet.Moment, neuralNetDomain.Moment);

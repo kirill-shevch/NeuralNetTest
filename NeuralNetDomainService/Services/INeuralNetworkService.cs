@@ -5,8 +5,8 @@ namespace NeuralNetDomainService.Services
 {
     public interface INeuralNetworkService
     {
-        double Reckon(NeuralNetDomain neuralNet);
+        double Reckon(NeuralNetworkDomain neuralNet);
 
-        CalibrationResult Calibrate(NeuralNetDomain neuralNet, double answer);
+        CalibrationResult Calibrate(NeuralNetworkDomain neuralNet, double answer);
     }
 }

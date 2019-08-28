@@ -8,14 +8,14 @@
         public int IdSynapse { get; set; }
 
         /// <summary>
-        /// Id входного нейрона
+        /// Входной нейрон
         /// </summary>
-        public int IdInput { get; set; }
+        public NeuronDomain InputNeuron { get; set; }
 
         /// <summary>
-        /// Id выходного нейрона
+        /// Выходной нейрон
         /// </summary>
-        public int IdOutput { get; set; }
+        public NeuronDomain OutputNeuron { get; set; }
 
         /// <summary>
         /// Вес синапса
@@ -32,36 +32,39 @@
         /// </summary>
         public int NeuralNetId { get; set; }
 
-        public override bool Equals(object obj)
-        {
-            var synapse = obj as SynapseDomain;
-            return synapse != null &&
-                   IdSynapse == synapse.IdSynapse &&
-                   IdInput == synapse.IdInput &&
-                   IdOutput == synapse.IdOutput &&
-                   Weight == synapse.Weight &&
-                   DeltaWeight == synapse.DeltaWeight;
-        }
+        //public override bool Equals(object obj)
+        //{
+        //    var synapse = obj as SynapseDomain;
+        //    return synapse != null &&
+        //           IdSynapse == synapse.IdSynapse &&
+        //           IdInput == synapse.IdInput &&
+        //           IdOutput == synapse.IdOutput &&
+        //           Weight == synapse.Weight &&
+        //           DeltaWeight == synapse.DeltaWeight;
+        //}
 
-        public override int GetHashCode()
-        {
-            var hashCode = -393186522;
-            hashCode = hashCode * -1521134295 + IdSynapse.GetHashCode();
-            hashCode = hashCode * -1521134295 + IdInput.GetHashCode();
-            hashCode = hashCode * -1521134295 + IdOutput.GetHashCode();
-            hashCode = hashCode * -1521134295 + Weight.GetHashCode();
-            hashCode = hashCode * -1521134295 + DeltaWeight.GetHashCode();
-            return hashCode;
-        }
+        //public override int GetHashCode()
+        //{
+        //    var hashCode = -393186522;
+        //    hashCode = hashCode * -1521134295 + IdSynapse.GetHashCode();
+        //    hashCode = hashCode * -1521134295 + IdInput.GetHashCode();
+        //    hashCode = hashCode * -1521134295 + IdOutput.GetHashCode();
+        //    hashCode = hashCode * -1521134295 + Weight.GetHashCode();
+        //    hashCode = hashCode * -1521134295 + DeltaWeight.GetHashCode();
+        //    return hashCode;
+        //}
 
         public override string ToString()
         {
             return Weight.ToString();
         }
 
-        public SynapseDomain()
+        public SynapseDomain(NeuronDomain inputNeuron, NeuronDomain outputNeuron)
         {
-
+            InputNeuron = inputNeuron;
+            inputNeuron.OutputSynapses.Add(this);
+            OutputNeuron = outputNeuron;
+            OutputNeuron.InputSynapses.Add(this);
         }
     }
 }

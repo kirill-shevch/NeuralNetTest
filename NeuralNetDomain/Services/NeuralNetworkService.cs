@@ -12,22 +12,21 @@ namespace NeuralNetDomain.Services
         /// Считаем выходное значение проходом вперёд
         /// </summary>
         /// <param name="neuralNet"></param>
-        private void Calculate(NeuralNetDomainService.DomainObjects.NeuralNetDomain neuralNet)
+        private void Calculate(NeuralNetworkDomain neuralNet)
         {
             var result = new ReckonResponse();
 
             //Обсчитываем скрытый слой и слои вывода
             var neurons = neuralNet.Neurons
-                .Select(n => n.Value)
                 .Where(n => n.NeuronType != NeuronType.InputNeuronType)
                 .OrderBy(n => n.NeuronType);
 
             foreach (var neuron in neurons)
             {
                 neuron.DataIn = 0;
-                foreach (var synapse in neuralNet.Synapses.Select(n => n.Value).Where(s => s.IdOutput == neuron.IdNeuron))
+                foreach (var synapse in neuron.InputSynapses)
                 {
-                    neuron.DataIn += neuralNet.Neurons[synapse.IdInput].DataOut * synapse.Weight;
+                    neuron.DataIn += synapse.InputNeuron.DataOut * synapse.Weight;
                 }
                 neuron.DataOut = Sigmoid(neuron.DataIn);
             }
@@ -37,10 +36,10 @@ namespace NeuralNetDomain.Services
         /// Считаем дельта-отклонение, пересчитываем веса нейронов
         /// </summary>
         /// <param name="answer"></param>
-        private double CalculateDeviation(NeuralNetDomainService.DomainObjects.NeuralNetDomain neuralNet, double answer)
+        private double CalculateDeviation(NeuralNetworkDomain neuralNet, double answer)
         {
             //Считаем значение средней квадратичной ошибки
-            var outNeuron = neuralNet.Neurons.Single(n => n.Value.NeuronType == NeuronType.OutputNeuronType).Value;
+            var outNeuron = neuralNet.Neurons.Single(n => n.NeuronType == NeuronType.OutputNeuronType);
             neuralNet.MSEcounter++;
             neuralNet.ErrorMSE += Math.Pow((answer - outNeuron.DataOut), 2);
 
@@ -52,14 +51,14 @@ namespace NeuralNetDomain.Services
             CalculateHiddenLayerDeltaDeviation(neuralNet, NeuronType.FirstLayerHiddenNeuronType);
 
             //Считаем изменение веса синапсов слоя ввода
-            foreach (var neuron in neuralNet.Neurons.Select(n => n.Value).Where(n => n.NeuronType == NeuronType.InputNeuronType))
+            foreach (var neuron in neuralNet.Neurons.Where(n => n.NeuronType == NeuronType.InputNeuronType))
             {
                 //градиент для градиентного спуска
                 double grad = 0;
 
-                foreach (var synapse in neuralNet.Synapses.Select(s => s.Value).Where(s => s.IdInput == neuron.IdNeuron))
+                foreach (var synapse in neuron.OutputSynapses)
                 {
-                    var targetDeviation = neuralNet.Neurons[synapse.IdOutput].DeltaDeviation;
+                    var targetDeviation = synapse.OutputNeuron.DeltaDeviation;
                     grad = targetDeviation * neuron.DataOut;
                     synapse.DeltaWeight = neuralNet.LearningSpeed * grad + neuralNet.Moment * synapse.DeltaWeight;
                     synapse.Weight += synapse.DeltaWeight;
@@ -72,18 +71,18 @@ namespace NeuralNetDomain.Services
         /// Считаем дельта-отклонение для указанного слоя скрытых нейронов и изменяем веса синапсов
         /// </summary>
         /// <param name="hiddenLayerType"></param>
-        private void CalculateHiddenLayerDeltaDeviation(NeuralNetDomainService.DomainObjects.NeuralNetDomain neuralNet, NeuronType hiddenLayerType)
+        private void CalculateHiddenLayerDeltaDeviation(NeuralNetworkDomain neuralNet, NeuronType hiddenLayerType)
         {
-            foreach (var neuron in neuralNet.Neurons.Select(n => n.Value).Where(n => n.NeuronType == hiddenLayerType))
+            foreach (var neuron in neuralNet.Neurons.Where(n => n.NeuronType == hiddenLayerType))
             {
                 //сумма произведения всех исходящих весов и дельта-отклонения нейрона, с которым связан синапс
                 double sum = 0;
                 //градиент для градиентного спуска
                 double grad = 0;
 
-                foreach (var synapse in neuralNet.Synapses.Select(s => s.Value).Where(s => s.IdInput == neuron.IdNeuron))
+                foreach (var synapse in neuron.OutputSynapses)
                 {
-                    var targetDeviation = neuralNet.Neurons[synapse.IdOutput].DeltaDeviation;
+                    var targetDeviation = synapse.OutputNeuron.DeltaDeviation;
                     sum += targetDeviation * synapse.Weight;
                     grad = targetDeviation * neuron.DataOut;
                     synapse.DeltaWeight = neuralNet.LearningSpeed * grad + neuralNet.Moment * synapse.DeltaWeight;
@@ -124,20 +123,20 @@ namespace NeuralNetDomain.Services
             return 1 / (1 + Math.Exp(-x));
         }
 
-        public double Reckon(NeuralNetDomainService.DomainObjects.NeuralNetDomain neuralNet)
+        public double Reckon(NeuralNetworkDomain neuralNet)
         {
             Calculate(neuralNet);
-            return neuralNet.Neurons.Single(n => n.Value.NeuronType == NeuronType.OutputNeuronType).Value.DataOut;
+            return neuralNet.Neurons.Single(n => n.NeuronType == NeuronType.OutputNeuronType).DataOut;
         }
 
-        public CalibrationResult Calibrate(NeuralNetDomainService.DomainObjects.NeuralNetDomain neuralNet, double answer)
+        public CalibrationResult Calibrate(NeuralNetworkDomain neuralNet, double answer)
         {
             Calculate(neuralNet);
             var error = CalculateDeviation(neuralNet, answer);
             return new CalibrationResult
             {
                 Error = error,
-                Result = neuralNet.Neurons.Single(n => n.Value.NeuronType == NeuronType.OutputNeuronType).Value.DataOut
+                Result = neuralNet.Neurons.Single(n => n.NeuronType == NeuronType.OutputNeuronType).DataOut
             };
         }
     }

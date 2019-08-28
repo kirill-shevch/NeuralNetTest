@@ -31,13 +31,13 @@ namespace NeuralNetApplicationServices
             {
                 throw new Exception("Can't find neuralNet");
             }
-            var neuralNetDomain = _mapper.Map<NeuralNetDomain>(neuralNet);
+            var neuralNetDomain = _mapper.Map<NeuralNetworkDomain>(neuralNet);
             var result = new List<ReckonResponse>(); 
             foreach (var item in inputNeuronCalculationDto)
             {
                 foreach (var neuronDto in item.InputNeuronDtos)
                 {
-                    neuralNetDomain.SetNeuronDataOut(neuronDto.Id, neuronDto.DataOut);
+                    //neuralNetDomain.SetNeuronDataOut(neuronDto.Id, neuronDto.DataOut);
                 }
                 result.Add(new ReckonResponse
                 {
@@ -56,13 +56,13 @@ namespace NeuralNetApplicationServices
             {
                 throw new Exception("Can't find neuralNet");
             }
-            var neuralNetDomain = _mapper.Map<NeuralNetDomain>(neuralNet);
+            var neuralNetDomain = _mapper.Map<NeuralNetworkDomain>(neuralNet);
             var result = new List<CalibrationResponse>();
             foreach (var item in inputNeuronCalibrationDto)
             {
                 foreach (var neuronDto in item.InputNeuronDtos)
                 {
-                    neuralNetDomain.SetNeuronDataOut(neuronDto.Id, neuronDto.DataOut);
+                    //neuralNetDomain.SetNeuronDataOut(neuronDto.Id, neuronDto.DataOut);
                 }
                 result.Add(new CalibrationResponse
                 {

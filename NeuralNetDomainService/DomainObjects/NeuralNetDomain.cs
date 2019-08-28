@@ -2,13 +2,13 @@
 
 namespace NeuralNetDomainService.DomainObjects
 {
-    public class NeuralNetDomain
+    public class NeuralNetworkDomain
     {
         public int Id { get; set; }
 
-        public IDictionary<int, NeuronDomain> Neurons { get; set; }
+        public IList<NeuronDomain> Neurons { get; set; }
 
-        public IDictionary<int, SynapseDomain> Synapses { get; set; }
+        public IList<SynapseDomain> Synapses { get; set; }
 
         public double ErrorMSE { get; set; }
 
@@ -24,12 +24,12 @@ namespace NeuralNetDomainService.DomainObjects
         /// </summary>
         public double Moment { get; set; }
 
-        public void SetNeuronDataOut(int id, double dataOut)
-        {
-            if (Neurons.ContainsKey(id))
-            {
-                Neurons[id].DataOut = dataOut;
-            }
-        }
+        //public void SetNeuronDataOut(int id, double dataOut)
+        //{
+        //    if (Neurons.ContainsKey(id))
+        //    {
+        //        Neurons[id].DataOut = dataOut;
+        //    }
+        //}
     }
 }

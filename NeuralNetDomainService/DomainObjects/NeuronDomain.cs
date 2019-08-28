@@ -1,4 +1,5 @@
 ﻿using NeuralNetApi;
+using System.Collections.Generic;
 
 namespace NeuralNetDomainService.DomainObjects
 {
@@ -30,31 +31,41 @@ namespace NeuralNetDomainService.DomainObjects
         public NeuronType NeuronType { get; set; }
 
         /// <summary>
+        /// Входной синапс
+        /// </summary>
+        public IList<SynapseDomain> InputSynapses { get; set; }
+
+        /// <summary>
+        /// Выходной синапс
+        /// </summary>
+        public IList<SynapseDomain> OutputSynapses { get; set; }
+
+        /// <summary>
         /// Id нейросети
         /// </summary>
         public int NeuralNetId { get; set; }
 
-        public override bool Equals(object obj)
-        {
-            var neuron = obj as NeuronDomain;
-            return neuron != null &&
-                   IdNeuron == neuron.IdNeuron &&
-                   DataIn == neuron.DataIn &&
-                   DataOut == neuron.DataOut &&
-                   DeltaDeviation == neuron.DeltaDeviation &&
-                   NeuronType == neuron.NeuronType;
-        }
+        //public override bool Equals(object obj)
+        //{
+        //    var neuron = obj as NeuronDomain;
+        //    return neuron != null &&
+        //           IdNeuron == neuron.IdNeuron &&
+        //           DataIn == neuron.DataIn &&
+        //           DataOut == neuron.DataOut &&
+        //           DeltaDeviation == neuron.DeltaDeviation &&
+        //           NeuronType == neuron.NeuronType;
+        //}
 
-        public override int GetHashCode()
-        {
-            var hashCode = 1569351438;
-            hashCode = hashCode * -1521134295 + IdNeuron.GetHashCode();
-            hashCode = hashCode * -1521134295 + DataIn.GetHashCode();
-            hashCode = hashCode * -1521134295 + DataOut.GetHashCode();
-            hashCode = hashCode * -1521134295 + DeltaDeviation.GetHashCode();
-            hashCode = hashCode * -1521134295 + NeuronType.GetHashCode();
-            return hashCode;
-        }
+        //public override int GetHashCode()
+        //{
+        //    var hashCode = 1569351438;
+        //    hashCode = hashCode * -1521134295 + IdNeuron.GetHashCode();
+        //    hashCode = hashCode * -1521134295 + DataIn.GetHashCode();
+        //    hashCode = hashCode * -1521134295 + DataOut.GetHashCode();
+        //    hashCode = hashCode * -1521134295 + DeltaDeviation.GetHashCode();
+        //    hashCode = hashCode * -1521134295 + NeuronType.GetHashCode();
+        //    return hashCode;
+        //}
 
         public override string ToString()
         {
@@ -63,7 +74,8 @@ namespace NeuralNetDomainService.DomainObjects
 
         public NeuronDomain()
         {
-
+            InputSynapses = new List<SynapseDomain>();
+            OutputSynapses = new List<SynapseDomain>();
         }
     }
 }
