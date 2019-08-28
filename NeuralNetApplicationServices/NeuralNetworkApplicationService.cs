@@ -9,7 +9,6 @@ using NeuralNetInfrastructure;
 using NeuralNetInfrastructure.Entities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace NeuralNetApplicationServices
 {
@@ -102,6 +101,16 @@ namespace NeuralNetApplicationServices
                 _applicationContext.Synapses.Add(_mapper.Map<Synapse>(request));
             }
             _applicationContext.SaveChanges();
+        }
+
+        public NeuralWebDto GetNeuralWebInformation(int neuralWebId)
+        {
+            var neuralWeb = _applicationContext.NeuralWebs.Find(neuralWebId);
+            if (neuralWeb == null)
+            {
+                throw new Exception("Can't find neuralWeb");
+            }
+            return _mapper.Map<NeuralWebDto>(neuralWeb);
         }
     }
 }

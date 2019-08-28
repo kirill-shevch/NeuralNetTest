@@ -11,6 +11,8 @@ namespace NeuralNetApi
 
         IList<ReckonResponse> Reckon(int neuralWebId, IList<InputNeuronReckonDto> inputNeuronReckonDto);
 
+        NeuralWebDto GetNeuralWebInformation(int neuralWebId);
+
         int CreateNeuralWeb(NeuralWebCreatingRequest request);
 
         void CreateNeurons(IList<NeuronCreatingRequest> request);
