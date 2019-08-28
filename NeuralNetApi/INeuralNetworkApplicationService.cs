@@ -1,4 +1,5 @@
-﻿using NeuralNetApi.Requests;
+﻿using NeuralNetApi.DTO;
+using NeuralNetApi.Requests;
 using NeuralNetDomainService.DTO;
 using System.Collections.Generic;
 
@@ -6,7 +7,9 @@ namespace NeuralNetApi
 {
     public interface INeuralNetworkApplicationService
     {
-        CalculationResult Calculate(int neuralWebId, double? answer = null);
+        IList<CalibrationResponse> Calibrate(int neuralWebId, IList<InputNeuronCalibrationDto> inputNeuronCalibrationDto);
+
+        IList<ReckonResponse> Reckon(int neuralWebId, IList<InputNeuronReckonDto> inputNeuronReckonDto);
 
         int CreateNeuralWeb(NeuralWebCreatingRequest request);
 

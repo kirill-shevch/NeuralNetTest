@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using NeuralNetApi.Requests;
-using NeuralNetDomain.Entities;
 using NeuralNetDomainService.DomainObjects;
+using NeuralNetInfrastructure.Entities;
 using System.Linq;
 
 namespace NeuralNetApplicationServices.Converters

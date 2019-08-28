@@ -5,13 +5,17 @@ using NeuralNetDomainService.Services;
 using System;
 using System.Linq;
 
-namespace NeuralNetDomain
+namespace NeuralNetDomain.Services
 {
     public class NeuralNetworkService : INeuralNetworkService
     {
-        public CalculationResult Calculate(NeuralWebDomain neuralWeb, double? answer = null)
+        /// <summary>
+        /// Считаем выходное значение проходом вперёд
+        /// </summary>
+        /// <param name="neuralWeb"></param>
+        private void Calculate(NeuralWebDomain neuralWeb)
         {
-            var result = new CalculationResult();
+            var result = new ReckonResponse();
 
             //Обсчитываем скрытый слой и слои вывода
             var neurons = neuralWeb.Neurons
@@ -21,24 +25,13 @@ namespace NeuralNetDomain
 
             foreach (var neuron in neurons)
             {
+                neuron.DataIn = 0;
                 foreach (var synapse in neuralWeb.Synapses.Select(n => n.Value).Where(s => s.IdOutput == neuron.IdNeuron))
                 {
                     neuron.DataIn += neuralWeb.Neurons[synapse.IdInput].DataOut * synapse.Weight;
                 }
                 neuron.DataOut = Sigmoid(neuron.DataIn);
             }
-
-            if (answer.HasValue)
-            {
-                result.Error = CalculateDeviation(neuralWeb, answer.Value);
-            }
-            else
-            {
-                result.Error = 0;
-            }
-
-            result.Result = neuralWeb.Neurons.Single(n => n.Value.NeuronType == (byte)NeuronTypeConst.OutputNeuronType).Value.DataOut;
-            return result;
         }
 
         /// <summary>
@@ -130,6 +123,23 @@ namespace NeuralNetDomain
         private double Sigmoid(double x)
         {
             return 1 / (1 + Math.Exp(-x));
+        }
+
+        public double Reckon(NeuralWebDomain neuralNet)
+        {
+            Calculate(neuralNet);
+            return neuralNet.Neurons.Single(n => n.Value.NeuronType == (byte)NeuronTypeConst.OutputNeuronType).Value.DataOut;
+        }
+
+        public CalibrationResult Calibrate(NeuralWebDomain neuralNet, double answer)
+        {
+            Calculate(neuralNet);
+            var error = CalculateDeviation(neuralNet, answer);
+            return new CalibrationResult
+            {
+                Error = error,
+                Result = neuralNet.Neurons.Single(n => n.Value.NeuronType == (byte)NeuronTypeConst.OutputNeuronType).Value.DataOut
+            };
         }
     }
 }

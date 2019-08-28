@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace NeuralNetDomain.Entities
+namespace NeuralNetInfrastructure.Entities
 {
     public class Neuron
     {
