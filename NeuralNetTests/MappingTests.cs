@@ -1,6 +1,6 @@
 using AutoMapper;
+using NeuralNetApi;
 using NeuralNetApplicationServices.Converters;
-using NeuralNetDomain.Constants;
 using NeuralNetDomainService.DomainObjects;
 using NeuralNetInfrastructure.Entities;
 using NUnit.Framework;
@@ -24,9 +24,9 @@ namespace Tests
         }
 
         [Test]
-        public void NeuralWebConvert_FromEntity_ToDomainObject()
+        public void NeuralNetConvert_FromEntity_ToDomainObject()
         {
-            var neuralnet = new NeuralWeb
+            var neuralnet = new NeuralNet
             {
                 Id = 1,
                 Neurons = new List<Neuron>
@@ -34,8 +34,8 @@ namespace Tests
                     new Neuron
                     {
                         Id = 1,
-                        NeuronType = (byte)NeuronTypeConst.InputNeuronType,
-                        NeuralWebId = 1
+                        NeuronType = NeuronType.InputNeuronType,
+                        NeuralNetId = 1
                     }
                 },
                 Synapses = new List<Synapse>
@@ -43,7 +43,7 @@ namespace Tests
                     new Synapse
                     {
                         Id = 1,
-                        NeuralWebId = 1,
+                        NeuralNetId = 1,
                         NeuronIdInput = 1,
                         NeuronIdOutput = 2,
                         Weight = 1
@@ -54,16 +54,16 @@ namespace Tests
                 ErrorMSE = 1,
                 MSEcounter = 1
             };
-            var neuralWebDomain = _mapper.Map<NeuralWebDomain>(neuralnet);
-            Assert.AreEqual(neuralnet.LearningSpeed, neuralWebDomain.LearningSpeed);
-            Assert.AreEqual(neuralnet.Id, neuralWebDomain.Id);
-            Assert.AreEqual(neuralnet.Moment, neuralWebDomain.Moment);
-            Assert.AreEqual(neuralnet.MSEcounter, neuralWebDomain.MSEcounter);
+            var neuralNetDomain = _mapper.Map<NeuralNetDomainService.DomainObjects.NeuralNetDomain>(neuralnet);
+            Assert.AreEqual(neuralnet.LearningSpeed, neuralNetDomain.LearningSpeed);
+            Assert.AreEqual(neuralnet.Id, neuralNetDomain.Id);
+            Assert.AreEqual(neuralnet.Moment, neuralNetDomain.Moment);
+            Assert.AreEqual(neuralnet.MSEcounter, neuralNetDomain.MSEcounter);
 
-            Assert.IsTrue(neuralWebDomain.Neurons is IDictionary<int, NeuronDomain>);
-            Assert.IsNotNull(neuralWebDomain.Neurons[1]);
-            Assert.IsTrue(neuralWebDomain.Synapses is IDictionary<int, SynapseDomain>);
-            Assert.IsNotNull(neuralWebDomain.Synapses[1]);
+            Assert.IsTrue(neuralNetDomain.Neurons is IDictionary<int, NeuronDomain>);
+            Assert.IsNotNull(neuralNetDomain.Neurons[1]);
+            Assert.IsTrue(neuralNetDomain.Synapses is IDictionary<int, SynapseDomain>);
+            Assert.IsNotNull(neuralNetDomain.Synapses[1]);
         }
     }
 }

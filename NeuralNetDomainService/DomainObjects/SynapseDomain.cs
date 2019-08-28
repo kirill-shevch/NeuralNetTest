@@ -30,7 +30,7 @@
         /// <summary>
         /// Id нейросети
         /// </summary>
-        public int NeuralWebId { get; set; }
+        public int NeuralNetId { get; set; }
 
         public override bool Equals(object obj)
         {

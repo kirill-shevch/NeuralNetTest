@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace NeuralNetApi.DTO
+namespace NeuralNetApi
 {
     public class InputNeuronCalibrationDto
     {

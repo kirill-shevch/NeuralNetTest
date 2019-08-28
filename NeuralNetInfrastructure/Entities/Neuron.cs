@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using NeuralNetApi;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NeuralNetInfrastructure.Entities
@@ -14,9 +15,9 @@ namespace NeuralNetInfrastructure.Entities
         /// <summary>
         /// Тип нейрона: входной, скрытый, выходной, NeuronTypeConst
         /// </summary>
-        public byte NeuronType { get; set; }
+        public NeuronType NeuronType { get; set; }
 
-        [ForeignKey(nameof(NeuralWeb))]
-        public int NeuralWebId { get; set; }
+        [ForeignKey(nameof(NeuralNet))]
+        public int NeuralNetId { get; set; }
     }
 }

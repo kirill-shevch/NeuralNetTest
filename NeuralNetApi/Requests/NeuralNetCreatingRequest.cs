@@ -1,6 +1,6 @@
-﻿namespace NeuralNetApi.Requests
+﻿namespace NeuralNetApi
 {
-    public class NeuralWebCreatingRequest
+    public class NeuralNetCreatingRequest
     {
         /// <summary>
         /// Скорость обучения

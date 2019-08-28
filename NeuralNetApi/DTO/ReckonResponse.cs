@@ -1,7 +1,6 @@
-﻿using NeuralNetApi.DTO;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace NeuralNetDomainService.DTO
+namespace NeuralNetApi
 {
     public class ReckonResponse
     {
