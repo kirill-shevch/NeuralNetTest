@@ -1,4 +1,4 @@
-﻿using NeuralNetApi;
+﻿using NeuralNetDomainService.Constants;
 using System.Collections.Generic;
 
 namespace NeuralNetDomainService.DomainObjects

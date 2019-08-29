@@ -29,7 +29,6 @@ namespace WebService
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddSingleton<INeuralNetworkService, NeuralNetworkService>();
             services.AddSingleton<INeuralNetworkApplicationService, NeuralNetworkApplicationService>();
-            services.AddSingleton<INeuralNetworkApplicationService, NeuralNetworkController>();
             services.AddSingleton<ApplicationContext>();
 
             var mappingConfig = new MapperConfiguration(mc =>

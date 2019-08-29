@@ -1,5 +1,4 @@
-﻿using NeuralNetApi;
-using NeuralNetDomainService.DomainObjects;
+﻿using NeuralNetDomainService.DomainObjects;
 
 namespace NeuralNetDomainService.Services
 {
@@ -7,6 +6,6 @@ namespace NeuralNetDomainService.Services
     {
         double Reckon(NeuralNetworkDomain neuralNet);
 
-        CalibrationResult Calibrate(NeuralNetworkDomain neuralNet, double answer);
+        CalibrationResultDomain Calibrate(NeuralNetworkDomain neuralNet, double answer);
     }
 }

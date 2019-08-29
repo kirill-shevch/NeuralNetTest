@@ -1,5 +1,5 @@
-﻿using NeuralNetApi;
-using NeuralNetDomain.Services;
+﻿using NeuralNetDomain.Services;
+using NeuralNetDomainService.Constants;
 using NeuralNetDomainService.DomainObjects;
 using NUnit.Framework;
 using System;

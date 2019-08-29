@@ -1,4 +1,4 @@
-﻿using NeuralNetApi;
+﻿using NeuralNetDomainService.Constants;
 using NeuralNetDomainService.DomainObjects;
 using NeuralNetDomainService.Services;
 using System;
@@ -127,11 +127,11 @@ namespace NeuralNetDomain.Services
             return neuralNet.Neurons.Single(n => n.NeuronType == NeuronType.OutputNeuronType).DataOut;
         }
 
-        public CalibrationResult Calibrate(NeuralNetworkDomain neuralNet, double answer)
+        public CalibrationResultDomain Calibrate(NeuralNetworkDomain neuralNet, double answer)
         {
             Calculate(neuralNet);
             var error = CalculateDeviation(neuralNet, answer);
-            return new CalibrationResult
+            return new CalibrationResultDomain
             {
                 Error = error,
                 Result = neuralNet.Neurons.Single(n => n.NeuronType == NeuronType.OutputNeuronType).DataOut

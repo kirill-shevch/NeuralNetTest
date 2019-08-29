@@ -1,6 +1,6 @@
 using AutoMapper;
-using NeuralNetApi;
 using NeuralNetApplicationServices.Converters;
+using NeuralNetDomainService.Constants;
 using NeuralNetDomainService.DomainObjects;
 using NeuralNetInfrastructure.Entities;
 using NUnit.Framework;
@@ -34,13 +34,13 @@ namespace Tests
                     new Neuron
                     {
                         Id = 1,
-                        NeuronType = NeuronType.InputNeuronType,
+                        NeuronType = (byte)NeuronType.InputNeuronType,
                         NeuralNetId = 1
                     },
                     new Neuron
                     {
                         Id = 2,
-                        NeuronType = NeuronType.InputNeuronType,
+                        NeuronType = (byte)NeuronType.InputNeuronType,
                         NeuralNetId = 1
                     },
 

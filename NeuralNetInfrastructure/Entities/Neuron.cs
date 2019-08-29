@@ -15,7 +15,7 @@ namespace NeuralNetInfrastructure.Entities
         /// <summary>
         /// Тип нейрона: входной, скрытый, выходной, NeuronTypeConst
         /// </summary>
-        public NeuronType NeuronType { get; set; }
+        public byte NeuronType { get; set; }
 
         [ForeignKey(nameof(NeuralNet))]
         public int NeuralNetId { get; set; }

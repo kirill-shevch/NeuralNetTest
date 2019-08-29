@@ -1,4 +1,4 @@
-﻿namespace NeuralNetApi
+﻿namespace NeuralNetDomainService.Constants
 {
     public enum NeuronType
     {

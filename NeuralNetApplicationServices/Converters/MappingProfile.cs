@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using NeuralNetApi;
 using NeuralNetDomainService.DomainObjects;
 using NeuralNetInfrastructure.Entities;
 
@@ -19,6 +20,8 @@ namespace NeuralNetApplicationServices.Converters
                 .ForMember(dest => dest.NeuronIdInput, opt => opt.MapFrom(c => c.InputNeuron.IdNeuron))
                 .ForMember(dest => dest.NeuronIdInput, opt => opt.MapFrom(c => c.OutputNeuron.IdNeuron))
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(c => c.IdSynapse));
+
+            CreateMap<CalibrationResultDomain, CalibrationResult>().ReverseMap();
         }
     }
 }

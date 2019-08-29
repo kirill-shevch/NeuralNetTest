@@ -34,7 +34,8 @@ namespace NeuralNetApplicationServices
             foreach (var item in inputNeuronCalibrationDto)
             {
                 neuralNetDomain.SetInputData(item.Inputs);
-                result.Add(_neuralNetworkService.Calibrate(neuralNetDomain, item.Answer));
+                var calibrationResult = _neuralNetworkService.Calibrate(neuralNetDomain, item.Answer);
+                result.Add(_mapper.Map<CalibrationResult>(calibrationResult));
             }
             neuralNet = _mapper.Map<NeuralNet>(neuralNetDomain);
             _applicationContext.NeuralNets.Update(neuralNet);
