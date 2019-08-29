@@ -36,7 +36,14 @@ namespace Tests
                         Id = 1,
                         NeuronType = NeuronType.InputNeuronType,
                         NeuralNetId = 1
-                    }
+                    },
+                    new Neuron
+                    {
+                        Id = 2,
+                        NeuronType = NeuronType.InputNeuronType,
+                        NeuralNetId = 1
+                    },
+
                 },
                 Synapses = new List<Synapse>
                 {
@@ -54,16 +61,13 @@ namespace Tests
                 ErrorMSE = 1,
                 MSEcounter = 1
             };
+
             var neuralNetDomain = _mapper.Map<NeuralNetworkDomain>(neuralnet);
             Assert.AreEqual(neuralnet.LearningSpeed, neuralNetDomain.LearningSpeed);
             Assert.AreEqual(neuralnet.Id, neuralNetDomain.Id);
             Assert.AreEqual(neuralnet.Moment, neuralNetDomain.Moment);
             Assert.AreEqual(neuralnet.MSEcounter, neuralNetDomain.MSEcounter);
-
-            Assert.IsTrue(neuralNetDomain.Neurons is IDictionary<int, NeuronDomain>);
-            Assert.IsNotNull(neuralNetDomain.Neurons[1]);
-            Assert.IsTrue(neuralNetDomain.Synapses is IDictionary<int, SynapseDomain>);
-            Assert.IsNotNull(neuralNetDomain.Synapses[1]);
+            Assert.AreEqual(neuralNetDomain.Neurons.Count, 2);
         }
     }
 }

@@ -6,6 +6,7 @@ using NeuralNetInfrastructure;
 using NeuralNetInfrastructure.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NeuralNetApplicationServices
 {
@@ -24,90 +25,49 @@ namespace NeuralNetApplicationServices
             _mapper = mapper;
         }
 
-        public IList<ReckonResponse> Reckon(int neuralNetId, IList<InputNeuronReckonDto> inputNeuronCalculationDto)
+        public IList<CalibrationResult> Calibrate(int neuralNetId, IList<InputNeuronCalibrationDto> inputNeuronCalibrationDto)
         {
             var neuralNet = _applicationContext.NeuralNets.Find(neuralNetId);
-            if (neuralNet == null)
-            {
-                throw new Exception("Can't find neuralNet");
-            }
-            var neuralNetDomain = _mapper.Map<NeuralNetworkDomain>(neuralNet);
-            var result = new List<ReckonResponse>(); 
-            foreach (var item in inputNeuronCalculationDto)
-            {
-                foreach (var neuronDto in item.InputNeuronDtos)
-                {
-                    //neuralNetDomain.SetNeuronDataOut(neuronDto.Id, neuronDto.DataOut);
-                }
-                result.Add(new ReckonResponse
-                {
-                    InputNeuronDtos = item.InputNeuronDtos,
-                    Result = _neuralNetworkService.Reckon(neuralNetDomain)
-                });
-            }
-            neuralNet = _mapper.Map<NeuralNet>(neuralNetDomain);
-            return result;
-        }
+            var neuralNetDomain = ConvertNeuralNetFromEntity(neuralNet);
+            var result = new List<CalibrationResult>();
 
-        public IList<CalibrationResponse> Calibrate(int neuralNetId, IList<InputNeuronCalibrationDto> inputNeuronCalibrationDto)
-        {
-            var neuralNet = _applicationContext.NeuralNets.Find(neuralNetId);
-            if (neuralNet == null)
-            {
-                throw new Exception("Can't find neuralNet");
-            }
-            var neuralNetDomain = _mapper.Map<NeuralNetworkDomain>(neuralNet);
-            var result = new List<CalibrationResponse>();
             foreach (var item in inputNeuronCalibrationDto)
             {
-                foreach (var neuronDto in item.InputNeuronDtos)
-                {
-                    //neuralNetDomain.SetNeuronDataOut(neuronDto.Id, neuronDto.DataOut);
-                }
-                result.Add(new CalibrationResponse
-                {
-                    InputNeuronDtos = item.InputNeuronDtos,
-                    Result = _neuralNetworkService.Calibrate(neuralNetDomain, item.Answer)
-                });
+                neuralNetDomain.SetInputData(item.Inputs);
+                result.Add(_neuralNetworkService.Calibrate(neuralNetDomain, item.Answer));
             }
             neuralNet = _mapper.Map<NeuralNet>(neuralNetDomain);
+            _applicationContext.NeuralNets.Update(neuralNet);
+            _applicationContext.SaveChanges();
             return result;
         }
 
-        public int CreateNeuralNet(NeuralNetCreatingRequest request)
-        {
-            var neuralNet = _mapper.Map<NeuralNet>(request);
-            _applicationContext.NeuralNets.Add(neuralNet);
-            _applicationContext.SaveChanges();
-            return neuralNet.Id;
-        }
-
-        public void CreateNeurons(IList<NeuronCreatingRequest> request)
-        {
-            foreach (var neuron in request)
-            {
-                _applicationContext.Neurons.Add(_mapper.Map<Neuron>(request)); 
-            }
-            _applicationContext.SaveChanges();
-        }
-
-        public void CreateSynapses(IList<SynapseCreatingRequest> request)
-        {
-            foreach (var synapse in request)
-            {
-                _applicationContext.Synapses.Add(_mapper.Map<Synapse>(request));
-            }
-            _applicationContext.SaveChanges();
-        }
-
-        public NeuralNetDto GetNeuralNetInformation(int neuralNetId)
+        public IList<double> Reckon(int neuralNetId, IList<InputNeuronReckonDto> inputNeuronReckonDto)
         {
             var neuralNet = _applicationContext.NeuralNets.Find(neuralNetId);
-            if (neuralNet == null)
+            var neuralNetDomain = ConvertNeuralNetFromEntity(neuralNet);
+            var result = new List<double>();
+
+            foreach (var item in inputNeuronReckonDto)
             {
-                throw new Exception("Can't find neuralWeb");
+                neuralNetDomain.SetInputData(item.Inputs);
+                result.Add(_neuralNetworkService.Reckon(neuralNetDomain));
             }
-            return _mapper.Map<NeuralNetDto>(neuralNet);
+            return result;
+        }
+
+        private NeuralNetworkDomain ConvertNeuralNetFromEntity(NeuralNet neuralNet)
+        {
+            var neuralNetDomain = _mapper.Map<NeuralNetworkDomain>(neuralNet);
+
+            foreach (var synapse in neuralNet.Synapses)
+            {
+                var inputNeuron = neuralNetDomain.Neurons.Single(n => n.IdNeuron == synapse.NeuronIdInput);
+                var outputNeuron = neuralNetDomain.Neurons.Single(n => n.IdNeuron == synapse.NeuronIdOutput);
+                var domainSynapse = new SynapseDomain(inputNeuron, outputNeuron, synapse.Weight);
+                neuralNetDomain.Synapses.Add(domainSynapse);
+            }
+            return neuralNetDomain;
         }
     }
 }

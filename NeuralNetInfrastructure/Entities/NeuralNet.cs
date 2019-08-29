@@ -8,9 +8,9 @@ namespace NeuralNetInfrastructure.Entities
         [Key]
         public int Id { get; set; }
 
-        public IEnumerable<Neuron> Neurons { get; set; }
+        public IList<Neuron> Neurons { get; set; }
 
-        public IEnumerable<Synapse> Synapses { get; set; }
+        public IList<Synapse> Synapses { get; set; }
 
         public double ErrorMSE { get; set; }
 

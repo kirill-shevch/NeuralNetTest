@@ -58,13 +58,14 @@
         {
             return Weight.ToString();
         }
-
-        public SynapseDomain(NeuronDomain inputNeuron, NeuronDomain outputNeuron)
+        
+        public SynapseDomain(NeuronDomain inputNeuron, NeuronDomain outputNeuron, double weight)
         {
             InputNeuron = inputNeuron;
             inputNeuron.OutputSynapses.Add(this);
             OutputNeuron = outputNeuron;
             OutputNeuron.InputSynapses.Add(this);
+            Weight = weight;
         }
     }
 }

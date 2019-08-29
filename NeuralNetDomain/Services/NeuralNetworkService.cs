@@ -14,8 +14,6 @@ namespace NeuralNetDomain.Services
         /// <param name="neuralNet"></param>
         private void Calculate(NeuralNetworkDomain neuralNet)
         {
-            var result = new ReckonResponse();
-
             //Обсчитываем скрытый слой и слои вывода
             var neurons = neuralNet.Neurons
                 .Where(n => n.NeuronType != NeuronType.InputNeuronType)

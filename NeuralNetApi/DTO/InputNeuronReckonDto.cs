@@ -4,6 +4,6 @@ namespace NeuralNetApi
 {
     public class InputNeuronReckonDto
     {
-        public IList<InputNeuronDto> InputNeuronDtos { get; set; }
+        public IList<double> Inputs { get; set; }
     }
 }

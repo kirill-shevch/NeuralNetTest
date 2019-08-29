@@ -14,34 +14,34 @@ namespace WebService.Controllers
             _neuralNetworkApplicationService = neuralNetworkApplicationService;
         }
 
-        public IList<CalibrationResponse> Calibrate(int neuralNetId, IList<InputNeuronCalibrationDto> inputNeuronCalibrationDto)
+        [HttpPost("/calibrate")]
+        public IList<CalibrationResult> Calibrate(int neuralNetId, IList<InputNeuronCalibrationDto> inputNeuronCalibrationDto)
         {
             return _neuralNetworkApplicationService.Calibrate(neuralNetId, inputNeuronCalibrationDto);
         }
 
-        public int CreateNeuralNet(NeuralNetCreatingRequest request)
-        {
-            return _neuralNetworkApplicationService.CreateNeuralNet(request);
-        }
-
-        public void CreateNeurons(IList<NeuronCreatingRequest> request)
-        {
-            _neuralNetworkApplicationService.CreateNeurons(request);
-        }
-
-        public void CreateSynapses(IList<SynapseCreatingRequest> request)
-        {
-            _neuralNetworkApplicationService.CreateSynapses(request);
-        }
-
-        public NeuralNetDto GetNeuralNetInformation(int neuralNetId)
-        {
-            return _neuralNetworkApplicationService.GetNeuralNetInformation(neuralNetId);
-        }
-
-        public IList<ReckonResponse> Reckon(int neuralNetId, IList<InputNeuronReckonDto> inputNeuronReckonDto)
+        [HttpPost("/reckon")]
+        public IList<double> Reckon(int neuralNetId, IList<InputNeuronReckonDto> inputNeuronReckonDto)
         {
             return _neuralNetworkApplicationService.Reckon(neuralNetId, inputNeuronReckonDto);
+        }
+
+        // POST: api/NeuralNetwork
+        [HttpPost]
+        public void Post([FromBody] NeuralNetDto value)
+        {
+        }
+
+        [HttpGet("{id}", Name = "Get")]
+        public string Get(int id)
+        {
+            return "value";
+        }
+
+        // DELETE: api/ApiWithActions/5
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
         }
     }
 }

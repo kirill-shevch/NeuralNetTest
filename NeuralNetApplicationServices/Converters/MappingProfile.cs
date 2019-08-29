@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
-using NeuralNetApi;
 using NeuralNetDomainService.DomainObjects;
 using NeuralNetInfrastructure.Entities;
-using System.Linq;
 
 namespace NeuralNetApplicationServices.Converters
 {
@@ -11,31 +9,16 @@ namespace NeuralNetApplicationServices.Converters
         public MappingProfile()
         {
             CreateMap<NeuralNet, NeuralNetworkDomain>()
-                .ForMember(dest => dest.Neurons, opt => opt.MapFrom(c => c.Neurons.ToDictionary(p => p.Id)))
-                .ForMember(dest => dest.Synapses, opt => opt.MapFrom(c => c.Synapses.ToDictionary(p => p.Id)))
-                .ReverseMap();
+                .ForMember(dest => dest.Synapses, opt => opt.Ignore());
 
             CreateMap<Neuron, NeuronDomain>()
                 .ForMember(dest => dest.IdNeuron, opt => opt.MapFrom(c => c.Id))
                 .ReverseMap();
 
-            CreateMap<Synapse, SynapseDomain>()
-                .ForMember(dest => dest.IdSynapse, opt => opt.MapFrom(c => c.Id))
-                //.ForMember(dest => dest.IdInput, opt => opt.MapFrom(c => c.NeuronIdInput))
-                //.ForMember(dest => dest.IdOutput, opt => opt.MapFrom(c => c.NeuronIdOutput))
-                .ReverseMap();
-
-            CreateMap<NeuralNet, NeuralNetCreatingRequest>().ReverseMap();
-
-            CreateMap<Neuron, NeuronCreatingRequest>().ReverseMap();
-
-            CreateMap<Synapse, SynapseCreatingRequest>().ReverseMap();
-
-            CreateMap<NeuralNet, NeuralNetDto>().ReverseMap();
-
-            CreateMap<Neuron, NeuronDto>().ReverseMap();
-
-            CreateMap<Synapse, SynapseDto>().ReverseMap();
+            CreateMap<SynapseDomain, Synapse>()
+                .ForMember(dest => dest.NeuronIdInput, opt => opt.MapFrom(c => c.InputNeuron.IdNeuron))
+                .ForMember(dest => dest.NeuronIdInput, opt => opt.MapFrom(c => c.OutputNeuron.IdNeuron))
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(c => c.IdSynapse));
         }
     }
 }

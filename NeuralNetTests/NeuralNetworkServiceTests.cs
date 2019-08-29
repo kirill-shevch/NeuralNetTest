@@ -85,41 +85,35 @@ namespace NeuralNetTests
                 NeuronType = NeuronType.OutputNeuronType
             };
 
-            var synapse1 = new SynapseDomain(neuron1, neuron3)
+            var synapse1 = new SynapseDomain(neuron1, neuron3, 0.45)
             {
                 IdSynapse = 1,
                 NeuralNetId = 1,
-                Weight = 0.45
             };
-            var synapse2 = new SynapseDomain(neuron1, neuron4)
+            var synapse2 = new SynapseDomain(neuron1, neuron4, 0.78)
             {
                 IdSynapse = 2,
                 NeuralNetId = 1,
-                Weight = 0.78
             };
-            var synapse3 = new SynapseDomain(neuron2, neuron3)
+            var synapse3 = new SynapseDomain(neuron2, neuron3, -0.12)
             {
                 IdSynapse = 3,
                 NeuralNetId = 1,
-                Weight = -0.12
             };
-            var synapse4 = new SynapseDomain(neuron2, neuron4)
+            var synapse4 = new SynapseDomain(neuron2, neuron4, 0.13)
             {
                 IdSynapse = 4,
                 NeuralNetId = 1,
-                Weight = 0.13
             };
-            var synapse5 = new SynapseDomain(neuron3, neuron5)
+            var synapse5 = new SynapseDomain(neuron3, neuron5, 1.5)
             {
                 IdSynapse = 5,
                 NeuralNetId = 1,
-                Weight = 1.5
             };
-            var synapse6 = new SynapseDomain(neuron4, neuron5)
+            var synapse6 = new SynapseDomain(neuron4, neuron5, -2.3)
             {
                 IdSynapse = 6,
                 NeuralNetId = 1,
-                Weight = -2.3
             };
             return new NeuralNetworkDomain
             {

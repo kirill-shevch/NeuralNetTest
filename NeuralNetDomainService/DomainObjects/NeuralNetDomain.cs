@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using NeuralNetApi;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NeuralNetDomainService.DomainObjects
 {
@@ -24,12 +26,14 @@ namespace NeuralNetDomainService.DomainObjects
         /// </summary>
         public double Moment { get; set; }
 
-        //public void SetNeuronDataOut(int id, double dataOut)
-        //{
-        //    if (Neurons.ContainsKey(id))
-        //    {
-        //        Neurons[id].DataOut = dataOut;
-        //    }
-        //}
+        public void SetInputData(IList<double> inputs)
+        {
+            //Важен правильный порядок входных нейронов и инпутов!
+            var inputNeurons = Neurons.Where(n => n.NeuronType == NeuronType.InputNeuronType).ToList();
+            for (int i = 0; i < inputs.Count; i++)
+            {
+                inputNeurons[i].DataOut = inputs[i];
+            }
+        }
     }
 }
