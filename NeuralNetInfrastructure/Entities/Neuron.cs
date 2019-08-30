@@ -1,5 +1,4 @@
-﻿using NeuralNetApi;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NeuralNetInfrastructure.Entities
