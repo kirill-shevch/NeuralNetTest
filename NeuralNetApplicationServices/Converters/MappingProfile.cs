@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using NeuralNetApi;
+using NeuralNetApi.DTO.Prices;
 using NeuralNetDomainService.DomainObjects;
 using NeuralNetInfrastructure.Entities;
 
@@ -22,6 +23,9 @@ namespace NeuralNetApplicationServices.Converters
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(c => c.IdSynapse));
 
             CreateMap<CalibrationResultDomain, CalibrationResult>().ReverseMap();
+
+            CreateMap<Historical, Price>()
+                .ForMember(dest => dest.PriceValue, opt => opt.MapFrom(c => c.Open));
         }
     }
 }
