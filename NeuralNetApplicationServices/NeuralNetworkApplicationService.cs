@@ -4,7 +4,6 @@ using NeuralNetDomainService.DomainObjects;
 using NeuralNetDomainService.Services;
 using NeuralNetInfrastructure;
 using NeuralNetInfrastructure.Entities;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
