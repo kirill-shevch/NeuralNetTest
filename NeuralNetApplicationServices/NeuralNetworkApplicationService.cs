@@ -42,6 +42,25 @@ namespace NeuralNetApplicationServices
             return result;
         }
 
+        public int Create(NeuralNetDto neuralNetDto)
+        {
+            var neuralNet = _mapper.Map<NeuralNet>(neuralNetDto);
+            _applicationContext.NeuralNets.Add(neuralNet);
+            return neuralNet.Id;
+        }
+
+        public void Delete(int neuralNetId)
+        {
+            var neuralNet = _applicationContext.NeuralNets.Find(neuralNetId);
+            _applicationContext.NeuralNets.Remove(neuralNet);
+        }
+
+        public NeuralNetDto Get(int neuralNetId)
+        {
+            var neuralNet = _applicationContext.NeuralNets.Find(neuralNetId);
+            return _mapper.Map<NeuralNetDto>(neuralNet);
+        }
+
         public IList<double> Reckon(int neuralNetId, IList<InputNeuronReckonDto> inputNeuronReckonDto)
         {
             var neuralNet = _applicationContext.NeuralNets.Find(neuralNetId);

@@ -6,7 +6,7 @@ namespace WebService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class NeuralNetworkController : ControllerBase, INeuralNetworkApplicationService
+    public class NeuralNetworkController : ControllerBase
     {
         private readonly INeuralNetworkApplicationService _neuralNetworkApplicationService;
         public NeuralNetworkController(INeuralNetworkApplicationService neuralNetworkApplicationService)
@@ -28,20 +28,22 @@ namespace WebService.Controllers
 
         // POST: api/NeuralNetwork
         [HttpPost]
-        public void Post([FromBody] NeuralNetDto value)
+        public int Post([FromBody] NeuralNetDto neuralNetDto)
         {
+            return _neuralNetworkApplicationService.Create(neuralNetDto);
         }
 
         [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        public NeuralNetDto Get(int id)
         {
-            return "value";
+            return _neuralNetworkApplicationService.Get(id);
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            _neuralNetworkApplicationService.Delete(id);
         }
     }
 }
