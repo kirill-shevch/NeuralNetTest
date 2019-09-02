@@ -11,6 +11,7 @@ using NeuralNetDomain.Services;
 using NeuralNetDomainService.Services;
 using NeuralNetInfrastructure;
 using Swashbuckle.AspNetCore.Swagger;
+using WebService.HostedServices;
 
 namespace WebService
 {
@@ -29,6 +30,8 @@ namespace WebService
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddSingleton<INeuralNetworkService, NeuralNetworkService>();
             services.AddSingleton<INeuralNetworkApplicationService, NeuralNetworkApplicationService>();
+            services.AddSingleton<ICompanyPricesService, CompanyPricesService>();
+            services.AddHostedService<CompanyPricesHostedService>();
             services.AddSingleton<ApplicationContext>();
 
             var mappingConfig = new MapperConfiguration(mc =>
