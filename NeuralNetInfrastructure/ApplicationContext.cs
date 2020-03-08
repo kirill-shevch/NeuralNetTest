@@ -1,24 +1,42 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NeuralNetInfrastructure.Configurations;
 using NeuralNetInfrastructure.Entities;
 
 namespace NeuralNetInfrastructure
 {
     public class ApplicationContext : DbContext
     {
-        public DbSet<Price> Prices { get; set; }      
+		private readonly string _connectionString;
+
+		public ApplicationContext(string connectionString)
+		{
+			_connectionString = connectionString;
+		}
+
+		public DbSet<Price> Prices { get; set; }      
         public DbSet<Company> Companies { get; set; }
         public DbSet<NeuralNet> NeuralNets { get; set; }
         public DbSet<Neuron> Neurons { get; set; }
         public DbSet<Synapse> Synapses { get; set; }
 
-        public ApplicationContext()
-        {
-            Database.EnsureCreated();
-        }
+		protected override void OnConfiguring(DbContextOptionsBuilder builder)
+		{
+			base.OnConfiguring(builder);
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("Server=DESKTOP-6U034AU;Database=NeuralNetTest;User Id=sa;Password=testpass");
-        }
-    }
+			builder
+				.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+				.UseMySql(_connectionString);
+		}
+
+		protected override void OnModelCreating(ModelBuilder builder)
+		{
+			base.OnModelCreating(builder);
+
+			builder.ApplyConfiguration(new PriceConfiguration());
+			builder.ApplyConfiguration(new CompanyConfiguration());
+			builder.ApplyConfiguration(new NeuralNetConfiguration());
+			builder.ApplyConfiguration(new NeuronConfiguration());
+			builder.ApplyConfiguration(new SynapseConfiguration());
+		}
+	}
 }

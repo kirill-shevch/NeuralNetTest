@@ -20,27 +20,27 @@ namespace NeuralNetApplicationServices
 
         public void Update()
         {
-            var companies = _applicationContext.Companies;
+            //var companies = _applicationContext.Companies;
 
-            foreach (var company in companies)
-            {
-                var lastPrice = _applicationContext.Prices
-                    .Where(p => p.CompanyId == company.Id)
-                    .OrderBy(p => p.Date)
-                    .FirstOrDefault();
+            //foreach (var company in companies)
+            //{
+            //    var lastPrice = _applicationContext.Prices
+            //        .Where(p => p.CompanyId == company.Id)
+            //        .OrderBy(p => p.Date)
+            //        .FirstOrDefault();
 
-                if (lastPrice != null)
-                {
-                    var lastPriceUpdateDate = lastPrice.Date;
-                    var lastPrices = GetPricesByCompanyFromDate(company, lastPriceUpdateDate);
-                    _applicationContext.AddRange(lastPrices);
-                }
-                else
-                {
-                    var allPrices = GetPricesByCompany(company);
-                    _applicationContext.AddRange(allPrices);
-                }
-            }
+            //    if (lastPrice != null)
+            //    {
+            //        var lastPriceUpdateDate = lastPrice.Date;
+            //        var lastPrices = GetPricesByCompanyFromDate(company, lastPriceUpdateDate);
+            //        _applicationContext.AddRange(lastPrices);
+            //    }
+            //    else
+            //    {
+            //        var allPrices = GetPricesByCompany(company);
+            //        _applicationContext.AddRange(allPrices);
+            //    }
+            //}
         }
 
         private List<Price> GetPricesByCompany(Company company)

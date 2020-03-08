@@ -1,14 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace NeuralNetInfrastructure.Entities
+﻿namespace NeuralNetInfrastructure.Entities
 {
     public class Neuron
     {
+        public const string TableName = "Neuron";
+
         /// <summary>
         /// Id нейрона
         /// </summary>
-        [Key]
         public int Id { get; set; }
 
         /// <summary>
@@ -16,7 +14,12 @@ namespace NeuralNetInfrastructure.Entities
         /// </summary>
         public byte NeuronType { get; set; }
 
-        [ForeignKey(nameof(NeuralNet))]
         public int NeuralNetId { get; set; }
+
+        public NeuralNet NeuralNet { get; set; }
+
+        public Neuron()
+        {
+        }
     }
 }

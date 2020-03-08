@@ -4,13 +4,14 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 using NeuralNetApi;
 using NeuralNetApplicationServices;
 using NeuralNetApplicationServices.Converters;
 using NeuralNetDomain.Services;
 using NeuralNetDomainService.Services;
 using NeuralNetInfrastructure;
-using Swashbuckle.AspNetCore.Swagger;
+using System;
 using WebService.HostedServices;
 
 namespace WebService
@@ -27,7 +28,7 @@ namespace WebService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddSingleton<INeuralNetworkService, NeuralNetworkService>();
             services.AddSingleton<INeuralNetworkApplicationService, NeuralNetworkApplicationService>();
             services.AddSingleton<ICompanyPricesService, CompanyPricesService>();
@@ -43,12 +44,12 @@ namespace WebService
             services.AddSingleton(mapper);
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "NeuralNetApi", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
             });
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        [Obsolete]
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseSwagger();
@@ -66,7 +67,6 @@ namespace WebService
             }
 
             app.UseHttpsRedirection();
-            app.UseMvc();
         }
     }
 }

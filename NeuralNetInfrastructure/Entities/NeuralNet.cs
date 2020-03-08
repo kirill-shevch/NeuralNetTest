@@ -1,16 +1,12 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace NeuralNetInfrastructure.Entities
 {
     public class NeuralNet
     {
-        [Key]
+        public const string TableName = "NeuralNet";
+
         public int Id { get; set; }
-
-        public IList<Neuron> Neurons { get; set; }
-
-        public IList<Synapse> Synapses { get; set; }
 
         public double ErrorMSE { get; set; }
 
@@ -25,5 +21,15 @@ namespace NeuralNetInfrastructure.Entities
         /// Значение момента для градиентного спуска
         /// </summary>
         public double Moment { get; set; }
+
+        public List<Neuron> Neurons { get; set; }
+
+        public List<Synapse> Synapses { get; set; }
+
+        public NeuralNet()
+        {
+            Neurons = new List<Neuron>();
+            Synapses = new List<Synapse>();
+        }
     }
 }
