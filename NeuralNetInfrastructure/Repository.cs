@@ -39,7 +39,7 @@ namespace NeuralNetInfrastructure
         public async Task<NeuralNet> GetNeuralNet(int neuralNetId)
         {
             using (var dbContext = new ApplicationContext(_configuration["connectionString"]))
-                return await dbContext.NeuralNets.SingleAsync(n => n.Id == neuralNetId);
+                return await dbContext.NeuralNets.SingleOrDefaultAsync(n => n.Id == neuralNetId);
         }
 
         public async Task UpdateNeuralNet(NeuralNet neuralNet)

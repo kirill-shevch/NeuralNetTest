@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NeuralNetApi;
+using Swashbuckle.Swagger.Annotations;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -34,6 +35,15 @@ namespace WebService.Controllers
             return await _neuralNetworkApplicationService.Create(neuralNetDto);
         }
 
+
+        /// <summary>
+        /// Get neural network
+        /// </summary>
+        /// <response code="200">If start success</response>
+        /// <response code="400">If bad request</response>
+        /// <response code="403">If access denied</response>
+        /// <response code="500">If internal server error</response>
+        [SwaggerOperation("Get")]
         [HttpGet("{id}", Name = "Get")]
         public async Task<NeuralNetDto> Get(int id)
         {
