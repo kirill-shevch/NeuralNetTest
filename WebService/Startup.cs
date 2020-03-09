@@ -33,7 +33,7 @@ namespace WebService
             services.AddSingleton<INeuralNetworkApplicationService, NeuralNetworkApplicationService>();
             services.AddSingleton<ICompanyPricesService, CompanyPricesService>();
             services.AddHostedService<CompanyPricesHostedService>();
-            services.AddSingleton<ApplicationContext>();
+            services.AddSingleton<IRepository, Repository>();
 
             var mappingConfig = new MapperConfiguration(mc =>
             {

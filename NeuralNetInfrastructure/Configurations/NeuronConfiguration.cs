@@ -9,7 +9,14 @@ namespace NeuralNetInfrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<Neuron> builder)
         {
-            throw new NotImplementedException();
+            builder.ToTable(Neuron.TableName);
+            builder.HasKey(x => x.Id);
+            builder.Property(x => x.NeuronType);
+            builder.Property(x => x.NeuralNetId);
+
+            builder.HasOne(x => x.NeuralNet)
+                .WithMany(x => x.Neurons)
+                .HasForeignKey(x => x.NeuralNetId);
         }
     }
 }

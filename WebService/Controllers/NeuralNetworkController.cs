@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NeuralNetApi;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace WebService.Controllers
 {
@@ -15,35 +16,35 @@ namespace WebService.Controllers
         }
 
         [HttpPost("/calibrate")]
-        public IList<CalibrationResult> Calibrate(int neuralNetId, IList<InputNeuronCalibrationDto> inputNeuronCalibrationDto)
+        public async Task<IList<CalibrationResult>> Calibrate(int neuralNetId, IList<InputNeuronCalibrationDto> inputNeuronCalibrationDto)
         {
-            return _neuralNetworkApplicationService.Calibrate(neuralNetId, inputNeuronCalibrationDto);
+            return await _neuralNetworkApplicationService.Calibrate(neuralNetId, inputNeuronCalibrationDto);
         }
 
         [HttpPost("/reckon")]
-        public IList<double> Reckon(int neuralNetId, IList<InputNeuronReckonDto> inputNeuronReckonDto)
+        public async Task<IList<double>> Reckon(int neuralNetId, IList<InputNeuronReckonDto> inputNeuronReckonDto)
         {
-            return _neuralNetworkApplicationService.Reckon(neuralNetId, inputNeuronReckonDto);
+            return await _neuralNetworkApplicationService.Reckon(neuralNetId, inputNeuronReckonDto);
         }
 
         // POST: api/NeuralNetwork
         [HttpPost]
-        public int Post([FromBody] NeuralNetDto neuralNetDto)
+        public async Task<int> Post([FromBody] NeuralNetDto neuralNetDto)
         {
-            return _neuralNetworkApplicationService.Create(neuralNetDto);
+            return await _neuralNetworkApplicationService.Create(neuralNetDto);
         }
 
         [HttpGet("{id}", Name = "Get")]
-        public NeuralNetDto Get(int id)
+        public async Task<NeuralNetDto> Get(int id)
         {
-            return _neuralNetworkApplicationService.Get(id);
+            return await _neuralNetworkApplicationService.Get(id);
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            _neuralNetworkApplicationService.Delete(id);
+            await _neuralNetworkApplicationService.Delete(id);
         }
     }
 }

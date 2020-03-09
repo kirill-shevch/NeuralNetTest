@@ -9,7 +9,12 @@ namespace NeuralNetInfrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<NeuralNet> builder)
         {
-            throw new NotImplementedException();
+            builder.ToTable(NeuralNet.TableName);
+            builder.HasKey(x => x.Id);
+            builder.Property(x => x.ErrorMSE);
+            builder.Property(x => x.MSEcounter);
+            builder.Property(x => x.LearningSpeed);
+            builder.Property(x => x.Moment);
         }
     }
 }

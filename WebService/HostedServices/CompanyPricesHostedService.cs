@@ -20,7 +20,7 @@ namespace WebService.HostedServices
         public Task StartAsync(CancellationToken cancellationToken)
         {
             _timer = new Timer(DoWork, null, TimeSpan.Zero,
-                TimeSpan.FromSeconds(5));
+                TimeSpan.FromSeconds(10 * 60 * 60));
 
             return Task.CompletedTask;
         }

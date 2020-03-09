@@ -1,7 +1,9 @@
-﻿namespace NeuralNetApi
+﻿using System.Threading.Tasks;
+
+namespace NeuralNetApi
 {
     public interface ICompanyPricesService
     {
-        void Update();
+        Task Update();
     }
 }

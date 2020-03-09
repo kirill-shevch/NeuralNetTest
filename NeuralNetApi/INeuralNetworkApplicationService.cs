@@ -1,17 +1,18 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NeuralNetApi
 {
     public interface INeuralNetworkApplicationService
     {
-        IList<CalibrationResult> Calibrate(int neuralNetId, IList<InputNeuronCalibrationDto> inputNeuronCalibrationDto);
+        Task<IList<CalibrationResult>> Calibrate(int neuralNetId, IList<InputNeuronCalibrationDto> inputNeuronCalibrationDto);
 
-        IList<double> Reckon(int neuralNetId, IList<InputNeuronReckonDto> inputNeuronReckonDto);
+        Task<IList<double>> Reckon(int neuralNetId, IList<InputNeuronReckonDto> inputNeuronReckonDto);
 
-        int Create(NeuralNetDto neuralNetDto);
+        Task<int> Create(NeuralNetDto neuralNetDto);
 
-        void Delete(int neuralNetId);
+        Task Delete(int neuralNetId);
 
-        NeuralNetDto Get(int neuralNetId);
+        Task<NeuralNetDto> Get(int neuralNetId);
     }
 }

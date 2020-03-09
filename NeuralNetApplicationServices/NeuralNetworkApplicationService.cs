@@ -6,27 +6,28 @@ using NeuralNetInfrastructure;
 using NeuralNetInfrastructure.Entities;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NeuralNetApplicationServices
 {
     public class NeuralNetworkApplicationService : INeuralNetworkApplicationService
     {
         private readonly INeuralNetworkService _neuralNetworkService;
-        private readonly ApplicationContext _applicationContext;
+        private readonly IRepository _repository;
         private readonly IMapper _mapper;
 
         public NeuralNetworkApplicationService(INeuralNetworkService neuralNetworkService,
-            ApplicationContext applicationContext,
+            IRepository repository,
             IMapper mapper)
         {
             _neuralNetworkService = neuralNetworkService;
-            _applicationContext = applicationContext;
+            _repository = repository;
             _mapper = mapper;
         }
 
-        public IList<CalibrationResult> Calibrate(int neuralNetId, IList<InputNeuronCalibrationDto> inputNeuronCalibrationDto)
+        public async Task<IList<CalibrationResult>> Calibrate(int neuralNetId, IList<InputNeuronCalibrationDto> inputNeuronCalibrationDto)
         {
-            var neuralNet = _applicationContext.NeuralNets.Find(neuralNetId);
+            var neuralNet = await _repository.GetNeuralNet(neuralNetId);
             var neuralNetDomain = ConvertNeuralNetFromEntity(neuralNet);
             var result = new List<CalibrationResult>();
 
@@ -37,33 +38,32 @@ namespace NeuralNetApplicationServices
                 result.Add(_mapper.Map<CalibrationResult>(calibrationResult));
             }
             neuralNet = _mapper.Map<NeuralNet>(neuralNetDomain);
-            _applicationContext.NeuralNets.Update(neuralNet);
-            _applicationContext.SaveChanges();
+            await _repository.UpdateNeuralNet(neuralNet);
             return result;
         }
 
-        public int Create(NeuralNetDto neuralNetDto)
+        public async Task<int> Create(NeuralNetDto neuralNetDto)
         {
             var neuralNet = _mapper.Map<NeuralNet>(neuralNetDto);
-            _applicationContext.NeuralNets.Add(neuralNet);
+            await _repository.AddNeuralNet(neuralNet);
             return neuralNet.Id;
         }
 
-        public void Delete(int neuralNetId)
+        public async Task Delete(int neuralNetId)
         {
-            var neuralNet = _applicationContext.NeuralNets.Find(neuralNetId);
-            _applicationContext.NeuralNets.Remove(neuralNet);
+            var neuralNet = await _repository.GetNeuralNet(neuralNetId);
+            await _repository.RemoveNeuralNet(neuralNet);
         }
 
-        public NeuralNetDto Get(int neuralNetId)
+        public async Task<NeuralNetDto> Get(int neuralNetId)
         {
-            var neuralNet = _applicationContext.NeuralNets.Find(neuralNetId);
+            var neuralNet = await _repository.GetNeuralNet(neuralNetId);
             return _mapper.Map<NeuralNetDto>(neuralNet);
         }
 
-        public IList<double> Reckon(int neuralNetId, IList<InputNeuronReckonDto> inputNeuronReckonDto)
+        public async Task<IList<double>> Reckon(int neuralNetId, IList<InputNeuronReckonDto> inputNeuronReckonDto)
         {
-            var neuralNet = _applicationContext.NeuralNets.Find(neuralNetId);
+            var neuralNet = await _repository.GetNeuralNet(neuralNetId);
             var neuralNetDomain = ConvertNeuralNetFromEntity(neuralNet);
             var result = new List<double>();
 

@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using NeuralNetInfrastructure.Entities;
-using System;
 
 namespace NeuralNetInfrastructure.Configurations
 {
@@ -10,6 +9,9 @@ namespace NeuralNetInfrastructure.Configurations
         public void Configure(EntityTypeBuilder<Company> builder)
         {
             builder.ToTable(Company.TableName);
+            builder.HasKey(x => x.Id);
+            builder.Property(x => x.Name);
+            builder.Property(x => x.Signature);
         }
     }
 }

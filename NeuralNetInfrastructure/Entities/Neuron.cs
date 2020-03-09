@@ -1,4 +1,6 @@
-﻿namespace NeuralNetInfrastructure.Entities
+﻿using System.Collections.Generic;
+
+namespace NeuralNetInfrastructure.Entities
 {
     public class Neuron
     {
@@ -18,8 +20,14 @@
 
         public NeuralNet NeuralNet { get; set; }
 
+        public List<Synapse> OutputSynapses { get; set; }
+
+        public List<Synapse> InputSynapses { get; set; }
+
         public Neuron()
         {
+            OutputSynapses = new List<Synapse>();
+            InputSynapses = new List<Synapse>();
         }
     }
 }
