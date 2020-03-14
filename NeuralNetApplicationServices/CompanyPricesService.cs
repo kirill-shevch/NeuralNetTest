@@ -18,32 +18,33 @@ namespace NeuralNetApplicationServices
         private readonly IMapper _mapper;
         private readonly string _historicalPriceURL;
 
-        public CompanyPricesService(IRepository repository, IConfiguration configuraton)
+        public CompanyPricesService(IRepository repository, IConfiguration configuraton, IMapper mapper)
         {
+            _mapper = mapper;
             _repository = repository;
             _historicalPriceURL = configuraton["historicalPriceUrl"];
         }
 
         public async Task Update()
         {
-            //var companies = await _repository.GetCompanies();
+            var companies = await _repository.GetCompanies();
 
-            //foreach (var company in companies)
-            //{
-            //    var lastPrice = await _repository.GetLastPrice(company.Id);
+            foreach (var company in companies)
+            {
+                var lastPrice = await _repository.GetLastPrice(company.Id);
 
-            //    if (lastPrice != null)
-            //    {
-            //        var lastPriceUpdateDate = lastPrice.Date;
-            //        var lastPrices = await GetPricesByCompanyFromDate(company, lastPriceUpdateDate);
-            //        await _repository.AddRangeOfPrices(lastPrices);
-            //    }
-            //    else
-            //    {
-            //        var allPrices = await GetPricesByCompany(company);
-            //        await _repository.AddRangeOfPrices(allPrices);
-            //    }
-            //}
+                if (lastPrice != null)
+                {
+                    var lastPriceUpdateDate = lastPrice.Date;
+                    var lastPrices = await GetPricesByCompanyFromDate(company, lastPriceUpdateDate);
+                    await _repository.AddRangeOfPrices(lastPrices);
+                }
+                else
+                {
+                    var allPrices = await GetPricesByCompany(company);
+                    await _repository.AddRangeOfPrices(allPrices);
+                }
+            }
         }
 
         private async Task<List<Price>> GetPricesByCompany(Company company)

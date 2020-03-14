@@ -27,7 +27,11 @@ namespace NeuralNetInfrastructure
         public async Task AddRangeOfPrices(List<Price> prices)
         {
             using (var dbContext = new ApplicationContext(_configuration["connectionString"]))
+            {
                 await dbContext.AddRangeAsync(prices);
+
+                await dbContext.SaveChangesAsync();
+            }
         }
 
         public async Task<List<Company>> GetCompanies()
