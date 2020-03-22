@@ -6,9 +6,9 @@ namespace NeuralNetApi
     {
         public int Id { get; set; }
 
-        public IEnumerable<NeuronDto> Neurons { get; set; }
+        public List<NeuronDto> Neurons { get; set; }
 
-        public IEnumerable<SynapseDto> Synapses { get; set; }
+        public List<SynapseDto> Synapses { get; set; }
 
         public double ErrorMSE { get; set; }
 
