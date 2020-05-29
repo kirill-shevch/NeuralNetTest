@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <LangVersion>8</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0" />
+    <PackageReference Include="Swashbuckle" Version="5.6.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NeuralNetApplicationServices\NeuralNetApplicationServices.csproj" />
+    <ProjectReference Include="..\NeuralNetDomainService\NeuralNetDomainService.csproj" />
+    <ProjectReference Include="..\NeuralNetDomain\NeuralNetDomain.csproj" />
+    <ProjectReference Include="..\NeuralNetInfrastructure\NeuralNetInfrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

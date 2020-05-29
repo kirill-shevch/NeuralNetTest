@@ -1,0 +1,78 @@
+{
+  "id": 0,
+  "neurons": [
+    {
+      "id": 1,
+      "neuronType": 1,
+      "neuralNetId": 0
+    },
+    {
+      "id": 2,
+      "neuronType": 1,
+      "neuralNetId": 0
+    },
+    {
+      "id": 3,
+      "neuronType": 2,
+      "neuralNetId": 0
+    },
+    {
+      "id": 4,
+      "neuronType": 2,
+      "neuralNetId": 0
+    },
+    {
+      "id": 5,
+      "neuronType": 4,
+      "neuralNetId": 0
+    }
+  ],
+  "synapses": [
+    {
+      "id": 1,
+      "neuronIdInput": 1,
+      "neuronIdOutput": 3,
+      "neuralNetId": 0,
+      "weight": 0.45
+    },
+    {
+      "id": 2,
+      "neuronIdInput": 1,
+      "neuronIdOutput": 4,
+      "neuralNetId": 0,
+      "weight": 0.78
+    },
+    {
+      "id": 3,
+      "neuronIdInput": 2,
+      "neuronIdOutput": 3,
+      "neuralNetId": 0,
+      "weight": -0.12
+    },
+    {
+      "id": 4,
+      "neuronIdInput": 2,
+      "neuronIdOutput": 4,
+      "neuralNetId": 0,
+      "weight": 0.13
+    },
+    {
+      "id": 5,
+      "neuronIdInput": 3,
+      "neuronIdOutput": 5,
+      "neuralNetId": 0,
+      "weight": 1.5
+    },
+    {
+      "id": 6,
+      "neuronIdInput": 4,
+      "neuronIdOutput": 5,
+      "neuralNetId": 0,
+      "weight": -2.3
+    }
+  ],
+  "errorMSE": 0,
+  "msEcounter": 0,
+  "learningSpeed": 0.7,
+  "moment": 0.3
+}
